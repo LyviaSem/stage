@@ -104,7 +104,7 @@ public class Condition {
 	
 		fields = s.split(separator);
 		//System.out.println(fields[0].toString());
-		if(fields[0].toString() != "Bibliothèque"){
+		if(fields[0].toString() == "Bibliothèque"){
 			//System.out.println("true");
 			return false;
 		}

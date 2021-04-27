@@ -23,10 +23,10 @@ public class POI extends ListPersonne{
 	Condition c = new Condition();
 
 	public void lecture()  {
-		// TODO Auto-generated method stub
 		
 		XSSFRow row = null;
-		XSSFCell cell= null;
+		XSSFCell cell = null;
+		XSSFCell cell1 = null;
 		String ID;
 		String nom;
 		String prenom;
@@ -35,15 +35,104 @@ public class POI extends ListPersonne{
 		String poste;
 		String bibliotheque;
 		String carte;
+		int clm_ID = 0;
+		int clm_nom = 0;
+		int clm_date = 0;
+		int clm_statut = 0;
+		int clm_poste = 0;
+		int clm_bibliotheque = 0;
+		int clm_carte = 0;
+		int a = 0;
 		
 		try {
 		
-		FileInputStream inputstream = new FileInputStream("src/test.xlsx");
+		FileInputStream inputstream = new FileInputStream("src/classeur2.xlsx");
 		
 		XSSFWorkbook workbook = new XSSFWorkbook(inputstream);
 		
 		XSSFSheet sheet = workbook.getSheetAt(0);
 		
+		row = sheet.getRow(0);
+		//do {
+			for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+				cell1 = (XSSFCell) cellIt.next();
+			
+				switch(cell1.getCellType()) {
+			
+				case STRING :
+				
+					if(c.nomprenom(cell1.getStringCellValue()) == true) {
+						//System.out.println(cell.getStringCellValue());
+						String separateur, fields[];
+						int compteur = 0;
+						for(int j = 0; j < cell1.getStringCellValue().length()-1; j++){
+							char ch = cell1.getStringCellValue().charAt(j);
+							if((Character.isUpperCase(ch)) && (Character.isUpperCase(cell1.getStringCellValue().charAt(j+1)))){
+								compteur++;
+							}
+						}
+						
+						if(compteur >= 1) {
+							clm_nom = cell1.getColumnIndex();
+						}
+					}
+				
+					if( (c.statut(cell1.getStringCellValue()) == true ) && (c.maj(cell1.getStringCellValue()) == true) ) {
+					
+						clm_statut = cell1.getColumnIndex();
+					
+					}
+				
+	
+					/*if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || (c.b(cell1.getStringCellValue()) == true) ) {
+					
+						clm_bibliotheque = cell1.getColumnIndex();
+					}*/
+				
+			
+					break;
+				
+				case NUMERIC :
+				
+					if(c.tailleN(cell1.getNumericCellValue()) == 6) {
+						clm_ID = cell1.getColumnIndex();
+					}
+				
+				
+					if((c.tailleN(cell1.getNumericCellValue()) == 8) && (c.date_naissance(cell1.getNumericCellValue()) == true)) {
+						clm_date = cell1.getColumnIndex();
+					}
+				
+					break;
+				}
+			
+			}
+			//row = sheet.getRow(a+1);
+			//a++;
+		//} while(clm_bibliotheque == 0 /*|| clm_poste == 0*/);
+			
+			/*if(clm_bibliotheque == 0) {
+				
+				row = sheet.getRow(a+1);
+				do {
+					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+					
+						cell1 = (XSSFCell) cellIt.next();
+					
+						if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || (c.b(cell1.getStringCellValue()) == true) ) {
+					
+							clm_bibliotheque = cell1.getColumnIndex();
+						}
+					}
+				a++;
+				}while(clm_bibliotheque == 0);
+				
+				System.out.println("clm "+clm_bibliotheque);
+				System.out.println("cell "+cell1.getStringCellValue());
+			}*/
+			
+			
+		row = null;
 		for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
 			row = (XSSFRow) rowIt.next();
 			
@@ -58,26 +147,48 @@ public class POI extends ListPersonne{
 			
 			for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 				cell = (XSSFCell) cellIt.next();
+				//cell.getColumnIndex();
 				
-				switch(cell.getCellType()) {
-				
-					case STRING :
 						
-						/*String a = NULL;
-						if((a != cell.getStringCellValue())) {
-								System.out.println(a);
-								System.out.println(cell.getStringCellValue());
-								statut = cell.getStringCellValue();
-							}*/
+						if(cell.getColumnIndex() == clm_nom) {
+							//System.out.println(cell.getStringCellValue());
+							String separateur, fields[];
+							
+							//System.out.println("cel 2 "+cell.getStringCellValue());
+							separateur = ", ";
+							fields = cell.getStringCellValue().split(separateur);
+							//System.out.println("nom "+fields[0]);
+							//System.out.println("prenom "+fields[1]);
+							nom = fields[0];
+							//System.out.println("taille"+fields.length) ;
+							if(fields.length > 1) {
+							prenom = fields[1];	
+							}
+						}
+						
+						/*if(cell.getColumnIndex() == clm_bibliotheque){
+							bibliotheque = cell.getStringCellValue();
+						}*/
 													
-					
-						break;
 						
-					case NUMERIC :
+						if(cell.getColumnIndex() == clm_ID){
+							int i = (int) cell.getNumericCellValue();
+							String chaine = String.valueOf(i);
+							ID = chaine;
+						}
 						
 						
-						break;
-				}
+						if(cell.getColumnIndex() == clm_statut){
+							statut = cell.getStringCellValue();
+						}
+						
+						
+						if(cell.getColumnIndex() == clm_date){
+							int i = (int) cell.getNumericCellValue();
+							String chaine = String.valueOf(i);
+							date = chaine;
+						}
+						
 			}
 			
 			if(ID == null) {
