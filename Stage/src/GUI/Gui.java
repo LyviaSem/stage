@@ -13,6 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import Traitement.POI;
@@ -34,14 +35,12 @@ public class Gui extends JFrame{
 		
 		panel.setLayout(null);
 		panel.setPreferredSize(new Dimension(250,150));
-		//panel.setBackground(Color.white);
+		panel.setBackground(Color.LIGHT_GRAY);
 		
 		button.setBounds(50,50,150,30);
-		button.addActionListener(new filechooser());
 		button.setFont(new Font("Calibri", Font.PLAIN, 14));
-		button.setBackground(new Color(0x008080));
-		button.setForeground(Color.white);
-		//button.setOpaque(false);
+		button.setBackground(new Color(0xFFA07A));
+		button.setForeground(Color.BLACK);
 		button.setBorder(new EmptyBorder(5,15,5,15));
 		button.addActionListener(new filechooser());
 		
@@ -59,19 +58,20 @@ public class Gui extends JFrame{
 		this.setVisible(true);
 	}
 	
+	
 	private class filechooser implements ActionListener {
 		private JFileChooser fc = new JFileChooser();
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			//label = new JLabel("nouveau fichier créé");
 			// TODO Auto-generated method stub
 			int val = fc.showOpenDialog(panel);
 			if(val == JFileChooser.APPROVE_OPTION) {
+				
 				File file = fc.getSelectedFile();
-				poi.lecture();
-				//poi.ecrire(file);
+				poi.lecture(file);
+				poi.ecrire();
 				//action = true;
 				//System.out.println(action);
 				/*if(action == true) {

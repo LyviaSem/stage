@@ -114,21 +114,19 @@ public class Condition {
 	
 	public boolean poste(String s) {
 		
-		int compteur=0;
-		String separator = " ", fields[];
-			if(separateur(s) == true) {
-				fields = s.split(separator);
-				//System.out.println("taille fields "+fields.length);
-				for (int i = 0; i < fields.length-1; i++) {
-					//System.out.println("fields "+fields[i]);
-						char ch = fields[i].charAt(0);
-						if(Character.isUpperCase(ch) && Character.isLowerCase(fields[i].charAt(1))) {
-							compteur++;
-						}
-					}
+		for(int i = 0; i < s.length(); i++){
+			
+			char ch = s.charAt(i);
+			System.out.println("ch "+ch);
+			if((ch == ',') || (ch == '-')){
+				
+				return false;
 			}
+			
+		}
+		 
 	
-		return false;
+		return true;
 	}
 	
 	

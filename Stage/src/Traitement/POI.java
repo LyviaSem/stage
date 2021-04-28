@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -22,11 +23,12 @@ public class POI extends ListPersonne{
 	
 	Condition c = new Condition();
 
-	public void lecture()  {
+	public void lecture(File file)  {
 		
 		XSSFRow row = null;
 		XSSFCell cell = null;
 		XSSFCell cell1 = null;
+		
 		String ID;
 		String nom;
 		String prenom;
@@ -35,28 +37,31 @@ public class POI extends ListPersonne{
 		String poste;
 		String bibliotheque;
 		String carte;
-		int clm_ID = 0;
-		int clm_nom = 0;
-		int clm_date = 0;
-		int clm_statut = 0;
-		int clm_poste = 0;
-		int clm_bibliotheque = 0;
-		int clm_carte = 0;
+		
+		int clm_ID = -1;
+		int clm_nom = -1;
+		int clm_date = -1;
+		int clm_statut = -1;
+		int clm_poste = -1;
+		int clm_bibliotheque = -1;
+		int clm_carte = -1;
 		int a = 0;
 		
 		try {
 		
-		FileInputStream inputstream = new FileInputStream("src/classeur2.xlsx");
+		FileInputStream inputstream = new FileInputStream(file);
 		
 		XSSFWorkbook workbook = new XSSFWorkbook(inputstream);
 		
 		XSSFSheet sheet = workbook.getSheetAt(0);
 		
 		row = sheet.getRow(0);
-		//do {
+
+
 			for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 				cell1 = (XSSFCell) cellIt.next();
 			
+				
 				switch(cell1.getCellType()) {
 			
 				case STRING :
@@ -76,6 +81,7 @@ public class POI extends ListPersonne{
 							clm_nom = cell1.getColumnIndex();
 						}
 					}
+					
 				
 					if( (c.statut(cell1.getStringCellValue()) == true ) && (c.maj(cell1.getStringCellValue()) == true) ) {
 					
@@ -84,10 +90,16 @@ public class POI extends ListPersonne{
 					}
 				
 	
-					/*if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || (c.b(cell1.getStringCellValue()) == true) ) {
+					if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || (c.b(cell1.getStringCellValue()) == true) ) {
 					
 						clm_bibliotheque = cell1.getColumnIndex();
-					}*/
+					}
+					
+
+					if( (c.poste(cell1.getStringCellValue()) == true) && (cell1.getColumnIndex() != clm_nom ) ) {
+						clm_poste = cell1.getColumnIndex();
+					}
+					
 				
 			
 					break;
@@ -107,29 +119,155 @@ public class POI extends ListPersonne{
 				}
 			
 			}
-			//row = sheet.getRow(a+1);
-			//a++;
-		//} while(clm_bibliotheque == 0 /*|| clm_poste == 0*/);
 			
-			/*if(clm_bibliotheque == 0) {
+			
+			if(clm_ID == -1) {
 				
-				row = sheet.getRow(a+1);
 				do {
+					row = sheet.getRow(a+1);
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
+						
+						if(cell1.getCellType() == CellType.NUMERIC) {
+							//System.out.println("cell "+cell1.getStringCellValue());
 					
-						if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || (c.b(cell1.getStringCellValue()) == true) ) {
-					
-							clm_bibliotheque = cell1.getColumnIndex();
+							if(c.tailleN(cell1.getNumericCellValue()) == 6) {
+								clm_ID = cell1.getColumnIndex();
+							}
 						}
 					}
-				a++;
-				}while(clm_bibliotheque == 0);
+					a++;
+				}while(clm_ID == -1);
 				
-				System.out.println("clm "+clm_bibliotheque);
-				System.out.println("cell "+cell1.getStringCellValue());
-			}*/
+				
+			}
+			
+			
+			if(clm_nom == -1) {
+				
+				do {
+					row = sheet.getRow(a+1);
+					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+					
+						cell1 = (XSSFCell) cellIt.next();
+						
+						if(cell1.getCellType() == CellType.STRING) {
+							
+							if(c.nomprenom(cell1.getStringCellValue()) == true) {
+								//System.out.println(cell.getStringCellValue());
+								String separateur, fields[];
+								int compteur = 0;
+								for(int j = 0; j < cell1.getStringCellValue().length()-1; j++){
+									char ch = cell1.getStringCellValue().charAt(j);
+									if((Character.isUpperCase(ch)) && (Character.isUpperCase(cell1.getStringCellValue().charAt(j+1)))){
+										compteur++;
+									}
+								}
+								
+								if(compteur >= 1) {
+									clm_nom = cell1.getColumnIndex();
+								}
+							}
+						}
+					}
+					a++;
+				}while(clm_nom == -1);
+				
+			}
+			
+			
+			
+			if(clm_date == -1) {
+				
+				do {
+					row = sheet.getRow(a+1);
+					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+					
+						cell1 = (XSSFCell) cellIt.next();
+						
+						if(cell1.getCellType() == CellType.NUMERIC) {
+							//System.out.println("cell "+cell1.getStringCellValue());
+					
+							if((c.tailleN(cell1.getNumericCellValue()) == 8) && (c.date_naissance(cell1.getNumericCellValue()) == true)) {
+								clm_date = cell1.getColumnIndex();
+							}
+						}
+					}
+					a++;
+				}while(clm_date == -1);
+				
+			}
+			
+			
+			if(clm_statut == -1) {
+				
+				do {
+					row = sheet.getRow(a+1);
+					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+					
+						cell1 = (XSSFCell) cellIt.next();
+						
+						if(cell1.getCellType() == CellType.STRING) {
+							
+					
+							if( (c.statut(cell1.getStringCellValue()) == true ) && (c.maj(cell1.getStringCellValue()) == true) ) {
+								
+								clm_statut = cell1.getColumnIndex();
+							
+							}
+						}
+					}
+					a++;
+				}while(clm_statut == -1);
+			}
+			
+			
+			if(clm_bibliotheque == -1) {
+				
+				do {
+					row = sheet.getRow(a+1);
+					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+					
+						cell1 = (XSSFCell) cellIt.next();
+						
+						if(cell1.getCellType() == CellType.STRING) {
+							
+					
+							if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || (c.b(cell1.getStringCellValue()) == true) ) {
+					
+								clm_bibliotheque = cell1.getColumnIndex();
+							}
+						}
+					}
+					a++;
+				}while(clm_bibliotheque == -1);
+				
+				
+			}
+			
+			
+			if(clm_poste == -1) {
+				
+				do {
+					row = sheet.getRow(a+1);
+					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+					
+						cell1 = (XSSFCell) cellIt.next();
+						
+						if(cell1.getCellType() == CellType.STRING) {
+							
+					
+							if( (c.poste(cell1.getStringCellValue()) == true) && (cell1.getColumnIndex() != clm_nom ) ) {
+								clm_poste = cell1.getColumnIndex();
+							}
+						}
+					}
+					a++;
+				}while(clm_poste == -1);
+				
+				
+			}
 			
 			
 		row = null;
@@ -166,9 +304,9 @@ public class POI extends ListPersonne{
 							}
 						}
 						
-						/*if(cell.getColumnIndex() == clm_bibliotheque){
+						if(cell.getColumnIndex() == clm_bibliotheque){
 							bibliotheque = cell.getStringCellValue();
-						}*/
+						}
 													
 						
 						if(cell.getColumnIndex() == clm_ID){
@@ -187,6 +325,10 @@ public class POI extends ListPersonne{
 							int i = (int) cell.getNumericCellValue();
 							String chaine = String.valueOf(i);
 							date = chaine;
+						}
+						
+						if(cell.getColumnIndex() == clm_poste){
+							poste = cell.getStringCellValue();
 						}
 						
 			}
