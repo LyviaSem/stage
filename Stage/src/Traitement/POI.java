@@ -45,7 +45,8 @@ public class POI extends ListPersonne{
 		int clm_poste = -1;
 		int clm_bibliotheque = -1;
 		int clm_carte = -1;
-		int a = 0;
+		
+		int cmp_row = 0;
 		
 		try {
 		
@@ -124,7 +125,7 @@ public class POI extends ListPersonne{
 			if(clm_ID == -1) {
 				
 				do {
-					row = sheet.getRow(a+1);
+					row = sheet.getRow(cmp_row+1);
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
@@ -137,7 +138,7 @@ public class POI extends ListPersonne{
 							}
 						}
 					}
-					a++;
+					cmp_row++;
 				}while(clm_ID == -1);
 				
 				
@@ -147,7 +148,7 @@ public class POI extends ListPersonne{
 			if(clm_nom == -1) {
 				
 				do {
-					row = sheet.getRow(a+1);
+					row = sheet.getRow(cmp_row+1);
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
@@ -171,7 +172,7 @@ public class POI extends ListPersonne{
 							}
 						}
 					}
-					a++;
+					cmp_row++;
 				}while(clm_nom == -1);
 				
 			}
@@ -181,7 +182,7 @@ public class POI extends ListPersonne{
 			if(clm_date == -1) {
 				
 				do {
-					row = sheet.getRow(a+1);
+					row = sheet.getRow(cmp_row+1);
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
@@ -194,7 +195,7 @@ public class POI extends ListPersonne{
 							}
 						}
 					}
-					a++;
+					cmp_row++;
 				}while(clm_date == -1);
 				
 			}
@@ -203,7 +204,7 @@ public class POI extends ListPersonne{
 			if(clm_statut == -1) {
 				
 				do {
-					row = sheet.getRow(a+1);
+					row = sheet.getRow(cmp_row+1);
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
@@ -218,7 +219,7 @@ public class POI extends ListPersonne{
 							}
 						}
 					}
-					a++;
+					cmp_row++;
 				}while(clm_statut == -1);
 			}
 			
@@ -226,7 +227,7 @@ public class POI extends ListPersonne{
 			if(clm_bibliotheque == -1) {
 				
 				do {
-					row = sheet.getRow(a+1);
+					row = sheet.getRow(cmp_row+1);
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
@@ -240,7 +241,7 @@ public class POI extends ListPersonne{
 							}
 						}
 					}
-					a++;
+					cmp_row++;
 				}while(clm_bibliotheque == -1);
 				
 				
@@ -250,7 +251,7 @@ public class POI extends ListPersonne{
 			if(clm_poste == -1) {
 				
 				do {
-					row = sheet.getRow(a+1);
+					row = sheet.getRow(cmp_row+1);
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
@@ -263,7 +264,7 @@ public class POI extends ListPersonne{
 							}
 						}
 					}
-					a++;
+					cmp_row++;
 				}while(clm_poste == -1);
 				
 				
