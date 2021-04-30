@@ -2,34 +2,34 @@ package Traitement;
 
 public class Condition {
 	
+	//fonction qui determine et renvoie la taille du contenue d'une cellule numérique
 	public int tailleN(double d) {
+		
 		int i = (int) d;
 		String chaine = String.valueOf(i);
-		//System.out.println("chaine " +chaine);
 	
 		return chaine.length();
 	}
 	
-
+	//fonction qui determine et renvoie la taille du contenue d'une cellule qui contien une chaine de caractère
 	public int tailleS(String s) {		
 		return s.length();
 	}
 
-	
+	//fonction qui vérifie si tout les caractère d'une chaine donné son en majuscule
 	public boolean maj(String s) {
 	
 		int compteur=0;
 			String result0 = s.replaceAll("-","");
 			String result = result0.replaceAll("\\s+","");
-			//System.out.println("result "+result);
+			
 		for(int i = 0; i<s.length(); i++){
 			char ch = s.charAt(i);
 			if(Character.isUpperCase(ch)){
 				compteur++;
 			}
 		}
-			//System.out.println("compteur "+compteur);
-			//System.out.println("taille "+s.length());
+			
 		if(compteur == result.length()) {
 			return true;
 		}
@@ -37,13 +37,13 @@ public class Condition {
 		return false;
 	}
 
-
+	//cette fonction vérifie si la cellule courente contien le nom et prenom d'une personne
 	public boolean nomprenom(String s) {
 	
-		//System.out.println(s.length());
 		for(int i = 0; i < s.length(); i++){
 			char ch = s.charAt(i);
-			//System.out.println("ch "+ch);
+			
+			//si il y a une vigule suivi d'un espace alors la cellule contient bien un nom et un prénom
 			if((ch == ',') && (s.charAt(i+1) == ' ')){
 				return true;
 			}
@@ -52,16 +52,19 @@ public class Condition {
 		return false;
 	}
 	
-	
+	//cette fonction vérifie si la cellule courente contien le statut d'une personne
 	public boolean statut(String s) {
 		
 		int compteur = 0;
 		for(int i = 0; i < s.length(); i++){
 			char ch = s.charAt(i);
+			
+			//compte le nombre d'espace
 			if(ch == ' ') {
 				compteur ++;
 			}
-			//System.out.println("compteur "+compteur);
+			
+			//si un tiret et présent ou si il y a plus de 2 espace (donc plus de 3 mots) ce n'est pas un statut
 			if((ch == '-') || compteur > 3){
 				return false;
 			}
@@ -70,7 +73,7 @@ public class Condition {
 		return true;
 	}
 
-	
+	//cette fonction vérifie si la cellule courente contien les bibliothèques
 	public boolean biblio(String s) {
 	
 		for(int i = 0; i< s.length(); i++){
@@ -83,13 +86,15 @@ public class Condition {
 		return false;
 	}
 	
-
+	//cette fonction vérifie si la cellule courente contien les bibliothèques
 	public boolean date_naissance(double d) {
 	
 		int in = (int) d;
 		String chaine = String.valueOf(in);
 		for(int i = 0; i<2; i++){
 			char ch = chaine.charAt(i);
+			
+			//une année de naissance peut commencé par 19 ou 20 si ce n'est pas le cas de la cellule courante ce n'est pas une date de naissance
 			if(((ch == '1') &&  (chaine.charAt(i+1) == '9')) || ((ch == '2') &&  (chaine.charAt(i+1) == '0'))){
 				return true;
 			}
@@ -97,63 +102,67 @@ public class Condition {
 		return false;
 	}
 	
-
+	//les bibliothèquessont soit composé de 3 lettre ou commence par le mot bibliotheque cette fonction vérifie si la chaine de caractère commence par le mot bibliothèque 
 	public boolean b(String s) {
 	
 		String separator = " ", fields[];
 	
 		fields = s.split(separator);
-		//System.out.println(fields[0].toString());
+		
 		if(fields[0].toString() == "Bibliothèque"){
-			//System.out.println("true");
+			
 			return false;
 		}
 		return false;	
 	}
 
-	
+	//cette fonction vérifie si la cellule courante contien le poste d'une personne
 	public boolean poste(String s) {
 		
-		for(int i = 0; i < s.length(); i++){
+		/*for(int i = 0; i < s.length(); i++){
 			
 			char ch = s.charAt(i);
-			System.out.println("ch "+ch);
+			
+			//on elimine les chaine de caractère qui contienne une virgule (cellule des nom et prénom) et celle qui contienne des tiret (cellule des bibliothèque)
 			if((ch == ',') || (ch == '-')){
 				
 				return false;
 			}
 			
-		}
-		 
-	
-		return true;
-	}
-	
-	
-	public boolean separateur(String s) {
+		}*/
 		
-		//System.out.println(s.length());
-		for(int i = 0; i < s.length(); i++){
-			char ch = s.charAt(i);
+		if(s.length() > 0) {
+			char ch = s.charAt(0);
+		
+			//on elimine les chaine de caractère qui contienne une virgule (cellule des nom et prénom) et celle qui contienne des tiret (cellule des bibliothèque)
+			if((ch == 'D') && (s.charAt(1) == 'i')){
 			//System.out.println("ch "+ch);
-			if((ch == ',') || (ch == '-')){
-				return false;
-			}
-		}
-		
-		/*System.out.println(s.length());
-		for(int i = 0; i < s.length(); i++){
-			char ch = s.charAt(i);
-			System.out.println("ch "+ch);
-			if((ch == ',') || (ch == '-')){
-				return false;
-			}
-			else {
+			//System.out.println("ch1 "+s.charAt(1));
 				return true;
 			}
-		}*/
-		return true;
+		}
+		
+	
+		
+		 
+	
+		return false;
 	}
 	
-	
+	public boolean carte(String s) {
+		
+		//System.out.println("carte "+ s);
+		
+		for(int i = 0; i < s.length()-3; i++){
+			char ch = s.charAt(i);
+			
+			
+			//si il y a une vigule suivi d'un espace alors la cellule contient bien un nom et un prénom
+			if((ch == '8') && (s.charAt(i+1) == '0') && (s.charAt(i+2) == '5') && (s.charAt(i+3) == 'C')){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

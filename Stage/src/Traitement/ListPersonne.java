@@ -22,7 +22,6 @@ public class ListPersonne {
 	 public Personne recherchenom(String nom) { 
 	    	for(int i = 0; i < pr.size(); i++) { 
 	    		if(pr.get(i).getNom().equals(nom)) {
-	    			System.out.println(pr.get(i));
 	    			return pr.get(i) ;
 	    		}
 	    	}
@@ -35,7 +34,6 @@ public class ListPersonne {
 		String result = "";
 		for (Personne personne : pr) {
 			result += personne.toString() + "\n";
-			//System.out.println("size = " + pr.size());
 		}
 
 		return result;

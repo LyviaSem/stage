@@ -8,9 +8,9 @@ public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//File file = "src/classeur2";
+		File file = new File("fichier_entré/classeur5.xlsx");
 		POI poi = new POI();
-		//poi.lecture(file);
+		poi.lecture(file);
 		poi.ecrire();
 	}
 
