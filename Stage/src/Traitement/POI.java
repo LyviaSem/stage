@@ -113,10 +113,10 @@ public class POI extends ListPersonne{
 					}
 					
 
-					/*if( ((c.poste(cell1.getStringCellValue()) == true) && (cell1.getColumnIndex() != clm_nom ) && (c.tailleS((cell1.getStringCellValue())) > 4)) || (cell1.getStringCellValue() == "Structure_de_3e_niveau")) {
+					if( ((c.poste(cell1.getStringCellValue()) == true) && (cell1.getColumnIndex() != clm_nom ) && (c.tailleS((cell1.getStringCellValue())) > 4)) || (cell1.getStringCellValue() == "Structure_de_3e_niveau")) {
 						clm_poste = cell1.getColumnIndex();
 						System.out.println("clm poste "+clm_poste);
-					}*/
+					}
 					
 					if( c.poste(cell1.getStringCellValue()) == true) {
 						//clm_poste = cell1.getColumnIndex();
@@ -144,6 +144,9 @@ public class POI extends ListPersonne{
 					}
 				
 					break;
+					
+				case FORMULA :
+					clm_carte = cell1.getColumnIndex();
 				}
 			
 		}
@@ -285,7 +288,7 @@ public class POI extends ListPersonne{
 			}
 			
 			
-			/*if(clm_carte == -1) {
+			if(clm_carte == -1) {
 				
 				
 				do {
@@ -297,11 +300,12 @@ public class POI extends ListPersonne{
 						
 						if(cell1.getCellType() == CellType.FORMULA) {
 							
-							//System.out.println("cell boucle "+cell1.getCellFormula());
-							if(c.carte(cell1.getCellFormula()) == true){
+							System.out.println("cell boucle "+cell1.getCellFormula());
+							//if(c.carte(cell1.getCellFormula()) == true){
 								
 								clm_carte = cell1.getColumnIndex();
-							}
+							//}
+							System.out.println("clm carte "+clm_carte);
 						}
 					}
 					cmp_row++;
@@ -309,7 +313,7 @@ public class POI extends ListPersonne{
 				}while((clm_carte == -1) && (cmp_row < totalLigne-1));
 				
 				cmp_row = 1;
-			}*/
+			}
 			
 			
 			if(clm_poste == -1) {
@@ -412,10 +416,10 @@ public class POI extends ListPersonne{
 						
 						
 						//System.out.println("clm carte "+ clm_carte);
-						/*if(cell.getColumnIndex() == clm_carte){
-							carte = cell.getStringCellValue();*/
+						if(cell.getColumnIndex() == clm_carte){
+							carte = cell.getStringCellValue();
 							//System.out.println("clm carte "+ clm_carte);
-						//}
+						}
 						
 			}
 			
