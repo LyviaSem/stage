@@ -87,6 +87,7 @@ public class Gui extends JFrame{
 			
 			Object source = e.getSource();
 			fc.setBackground(Color.red);
+			fc.setFileView(new CustomFileView());
 
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel file", "xlsx");                                
 			fc.addChoosableFileFilter(filter);
@@ -172,7 +173,9 @@ public class Gui extends JFrame{
 	    public Icon getIcon(File f) {
 	        Icon icon = null;
 	
-	         icon = ExcelIcon;            
+	        if(isExcel(f)) {
+	         icon = ExcelIcon;  
+	        }
 	        
 	        return icon;
 	    }
