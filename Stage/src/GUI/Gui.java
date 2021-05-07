@@ -76,6 +76,7 @@ public class Gui extends JFrame{
 		frame.setLocation(500,300);
 		frame.pack();
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	//fonction du bouton 
@@ -101,7 +102,7 @@ public class Gui extends JFrame{
 			if(val == JFileChooser.APPROVE_OPTION) {
 				
 				File file = fc.getSelectedFile();
-				poi.lecture(file);
+				//poi.lecture(file);
 				poi.ecrire();
 				
 				//action = true;

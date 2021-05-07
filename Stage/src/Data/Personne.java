@@ -6,22 +6,26 @@ public class Personne {
 	private String ID;
 	private String NOM;
 	private String prenom;
-	private String date_naissance;
+	private String date_fin;
 	private String statut;
 	private String bibliotheque;
-	private String poste;
+	private String structure_3e;
+	private String structure_4e;
+	private String service;
 	private String num_carte;
 	
 	//constructeur du type "personne"
-	public Personne(String ID, String NOM, String prenom, String date_naissance, String statut, String bibliotheque, String poste, String num_carte) {
+	public Personne(String ID, String NOM, String prenom, String date_fin, String statut, String bibliotheque, String structure_3e, String structure_4e, String service, String num_carte) {
 		
 		this.ID = ID;
 		this.NOM = NOM;
 		this.prenom = prenom;
-		this.date_naissance = date_naissance;
+		this.date_fin = date_fin;
 		this.statut = statut;
 		this.bibliotheque = bibliotheque;
-		this.poste = poste;
+		this.structure_3e = structure_3e;
+		this.structure_4e = structure_4e;
+		this.service = service;
 		this.num_carte = num_carte;
 		
 	}
@@ -48,11 +52,11 @@ public class Personne {
 		this.prenom = prenom;
 	}
 	
-	public String getDate_naissance() {
-		return date_naissance;
+	public String getDate_fin() {
+		return date_fin;
 	}
-	public void setDate_naissance(String date_naissance) {
-		this.date_naissance = date_naissance;
+	public void setDate_fin(String date_naissance) {
+		this.date_fin = date_naissance;
 	}
 	
 	public String getstatut() {
@@ -69,11 +73,25 @@ public class Personne {
 		this.bibliotheque = bibliotheque;
 	}
 	
-	public String getPoste() {
-		return poste;
+	public String getStructure_3e() {
+		return structure_3e;
 	}
-	public void setPoste(String poste) {
-		this.poste = poste;
+	public void setStructure_3e(String structure_3e) {
+		this.structure_3e = structure_3e;
+	}
+	
+	public String getStructure_4e() {
+		return structure_4e;
+	}
+	public void setStructure_4e(String structure_4e) {
+		this.structure_4e = structure_4e;
+	}
+	
+	public String getService() {
+		return service;
+	}
+	public void setService(String service) {
+		this.service = service;
 	}
 	
 	public String getNum_carte() {
@@ -85,7 +103,7 @@ public class Personne {
 	
 	//affichage des "personne"
 		public String toString() {
-			return " ID = " + ID + "\n NOM = " + NOM + "\n Prénom = " + prenom + "\n Date de naissance = " + date_naissance + "\n statut = " + statut + "\n Bibliothèque = " + bibliotheque + "\n Poste = " + poste + "\n Numéro de carte = " + num_carte + "";
+			return " ID = " + ID + "\n NOM = " + NOM + "\n Prénom = " + prenom + "\n Date de naissance = " + date_fin + "\n statut = " + statut + "\n Bibliothèque = " + bibliotheque + "\n Structure_de_3e_niveau = " + structure_3e + "\n Structure_de_4e_niveau = " + structure_4e + "service = " + service + "\n Numéro de carte = " + num_carte + "";
 		}
 	
 
