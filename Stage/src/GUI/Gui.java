@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -46,6 +47,7 @@ public class Gui extends JFrame{
 		
 		frame.setTitle("fichier");
 		frame.setResizable(false);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Gui.class.getResource("/Image/fichier.png")));
 		
 		button = new JButton("choisir un fichier");
 		label = new JLabel("nouveau fichier créé");
@@ -79,7 +81,7 @@ public class Gui extends JFrame{
 	//fonction du bouton 
 	private class filechooser implements ActionListener {
 		private JFileChooser fc = new JFileChooser();
-		
+		FileView view = new CustomFileView();		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
@@ -87,7 +89,10 @@ public class Gui extends JFrame{
 			
 			Object source = e.getSource();
 			fc.setBackground(Color.red);
-			fc.setFileView(new CustomFileView());
+			fc.setFileView(view);
+			System.out.println("fc "+view);
+			
+			fc.setFileSelectionMode(fc.FILES_ONLY);
 
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel file", "xlsx");                                
 			fc.addChoosableFileFilter(filter);
@@ -171,21 +176,27 @@ public class Gui extends JFrame{
 	    }
 	 
 	    public Icon getIcon(File f) {
+	    	 System.out.println("oui ");
 	        Icon icon = null;
 	
 	        if(isExcel(f)) {
+	        	//System.out.println("IsExcel "+isExcel(f));
 	         icon = ExcelIcon;  
+	        // System.out.println("Icon "+icon);
 	        }
 	        
+	        System.out.println("Icon "+icon);
 	        return icon;
 	    }
 	    
 	    private boolean isExcel(File f) {
 	        String suffix = getSuffix(f);
+	       // System.out.println("suffix"+suffix);
 	        boolean isExcel = false;
 	 
 	        if (suffix != null) {
 	            isExcel = suffix.equals("xlsx");
+	            //System.out.println("isExcel "+isExcel);
 	        }
 	        return isExcel;
 	    }
@@ -199,6 +210,7 @@ public class Gui extends JFrame{
 	        }
 	        return suffix;
 	    }
+	    
 	}
 	
 	
