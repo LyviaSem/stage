@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -37,7 +38,7 @@ public class POI extends ListPersonne{
 		String ID;
 		String nom;
 		String prenom;
-		String date;
+		int date;
 		String statut;
 		String bibliotheque;
 		String niveau_3;
@@ -75,17 +76,18 @@ public class POI extends ListPersonne{
 		}
 		System.out.println(totalLigne);
 		
-		row = sheet.getRow(1);
+		row = sheet.getRow(0);
 		
 			//boucle qui va parcourir toute les cellule de la 1ere ligne du fichier
 			for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 				cell1 = (XSSFCell) cellIt.next();
 			
 				
+				System.out.println("type "+cell1.getCellType());
 				switch(cell1.getCellType()) {
 			
 				case STRING :
-					 System.out.println("cell S "+cell1.getStringCellValue());
+					// System.out.println("cell S "+cell1.getStringCellValue());
 				
 					if( (c.nomprenom(cell1.getStringCellValue()) == true) || (cell1.getStringCellValue() == "Nom") ) {
 						
@@ -122,17 +124,23 @@ public class POI extends ListPersonne{
 						//System.out.println("clm poste "+clm_3);
 					}
 					
+					if( (c.niv_4(cell1.getStringCellValue()) == true) && (clm_3 == cell1.getColumnIndex()-1)){
+						clm_4 = cell1.getColumnIndex();
+					}
 					
-					
-					if(c.service(cell1.getStringCellValue()) == true) {
+					if( (c.service(cell1.getStringCellValue()) == true) && (c.tailleS(cell1.getStringCellValue()) < 4)) {
+						//System.out.println("cel"+ cell1.getStringCellValue());
 						clm_service = cell1.getColumnIndex();
 					}
 				
-					System.out.println(c.carte(cell1.getStringCellValue()));
-					if(c.carte(cell1.getStringCellValue()) == true) {
+					//System.out.println("taille " +c.tailleS(cell1.getStringCellValue()));
+					//System.out.println("cell " +cell1.getStringCellValue());
+					if( (c.carte(cell1.getStringCellValue()) == true) && (c.tailleS(cell1.getStringCellValue()) == 14)) {
 						
 						clm_carte = cell1.getColumnIndex();
 					}
+					
+					//System.out.println("date fin "+c.date_fin(cell1.getStringCellValue()));
 				
 			
 					break;
@@ -143,9 +151,8 @@ public class POI extends ListPersonne{
 						clm_ID = cell1.getColumnIndex();
 						//System.out.println("clm "+cell1.getColumnIndex());
 					}
-				
-				
-					if((c.tailleN(cell1.getNumericCellValue()) == 8) && (c.date_naissance(cell1.getNumericCellValue()) == true)) {
+					
+					if((c.date_fin(cell1.getNumericCellValue()) == true) /*&& (c.caractere(cell1.getNumericCellValue()) == true)*/) {
 						clm_date = cell1.getColumnIndex();
 					}
 				
@@ -176,8 +183,8 @@ public class POI extends ListPersonne{
 					}
 					cmp_row++;
 					
-					System.out.println("cmp "+cmp_row);
-					System.out.println("ligne "+totalLigne);
+					//System.out.println("cmp "+cmp_row);
+					//System.out.println("ligne "+totalLigne);
 				}while(clm_ID == -1 && cmp_row < totalLigne-1);
 				
 				cmp_row = 1;
@@ -229,9 +236,12 @@ public class POI extends ListPersonne{
 						cell1 = (XSSFCell) cellIt.next();
 						
 						if(cell1.getCellType() == CellType.NUMERIC) {
-							//System.out.println("cell "+cell1.getStringCellValue());
-					
-							if((c.tailleN(cell1.getNumericCellValue()) == 8) && (c.date_naissance(cell1.getNumericCellValue()) == true)) {
+							
+							//System.out.println("cell  "+cell1.getStringCellValue());
+							//System.out.println("date fin  "+c.date_fin(cell1.getStringCellValue()));
+							//System.out.println("/  "+c.caractere(cell1.getStringCellValue()));
+							
+							if( (c.date_fin(cell1.getNumericCellValue()) == true) /*&& (c.caractere(cell1.getNumericCellValue()) == true)*/) {
 								clm_date = cell1.getColumnIndex();
 							}
 						}
@@ -279,7 +289,7 @@ public class POI extends ListPersonne{
 						cell1 = (XSSFCell) cellIt.next();
 						
 						if(cell1.getCellType() == CellType.STRING) {
-							System.out.println("cell "+c.biblio(cell1.getStringCellValue()));
+							//System.out.println("cell "+c.biblio(cell1.getStringCellValue()));
 					
 							if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || ( (c.tailleS(cell1.getStringCellValue()) == 3) && (c.maj(cell1.getStringCellValue()) == true) ) || (c.b(cell1.getStringCellValue()) == true) ) {
 					
@@ -307,7 +317,9 @@ public class POI extends ListPersonne{
 						
 						if(cell1.getCellType() == CellType.STRING) {
 							
-							if(c.carte(cell1.getStringCellValue()) == true) {
+							//System.out.println("taille " +c.tailleS(cell1.getStringCellValue()));
+							//System.out.println("cell " +cell1.getStringCellValue());
+							if( (c.carte(cell1.getStringCellValue()) == true)  && (c.tailleS(cell1.getStringCellValue()) == 14)) {
 								clm_carte = cell1.getColumnIndex();
 							}
 						}
@@ -345,6 +357,29 @@ public class POI extends ListPersonne{
 			}
 			
 			
+			if(clm_4 == -1) {
+				
+				do {
+					row = sheet.getRow(cmp_row+1);
+					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+					
+						cell1 = (XSSFCell) cellIt.next();
+						
+						if(cell1.getCellType() == CellType.STRING) {
+							
+							if( (c.niv_4(cell1.getStringCellValue()) == true) && (clm_3 == cell1.getColumnIndex()-1)){
+								clm_4 = cell1.getColumnIndex();
+							}
+						}
+					}
+					cmp_row++;
+				}while(clm_4 == -1 && cmp_row < totalLigne-1);
+				
+				cmp_row = 1;
+				
+			}
+			
+			
 			if(clm_service == -1) {
 				
 				
@@ -357,8 +392,11 @@ public class POI extends ListPersonne{
 						
 						if(cell1.getCellType() == CellType.STRING) {
 							
-				
-							if(c.service(cell1.getStringCellValue()) == true) {
+							//System.out.println("clm "+ cell1.getStringCellValue());
+							//System.out.println("service "+ c.service(cell1.getStringCellValue()));
+							//System.out.println("taille "+ c.tailleS(cell1.getStringCellValue()));
+							if( (c.service(cell1.getStringCellValue()) == true) && (c.tailleS(cell1.getStringCellValue()) <= 4)) {
+								//System.out.println("clm "+ cell1.getStringCellValue());
 								clm_service = cell1.getColumnIndex();
 							}
 							//System.out.println("clm service "+clm_service);
@@ -379,7 +417,7 @@ public class POI extends ListPersonne{
 			ID = null;
 			nom = null;
 			prenom = null;
-			date = null;
+			date = 0;
 			statut = null;
 			niveau_3 = null;
 			niveau_4 = null;
@@ -418,7 +456,7 @@ public class POI extends ListPersonne{
 							}
 							else {
 								int i = (int) cell.getNumericCellValue();
-								System.out.println("cellule "+ cell.getNumericCellValue());
+								//System.out.println("cellule "+ cell.getNumericCellValue());
 								String chaine = String.valueOf(i);
 								if(chaine.length() < 6) {
 									int var = 6 - chaine.length()  ;
@@ -438,14 +476,14 @@ public class POI extends ListPersonne{
 						}
 						
 						
+						//System.out.println("clm_date" + clm_date);
 						if(cell.getColumnIndex() == clm_date){
 							if(cell.getCellType() == CellType.STRING) {
-								date = null;
+								date = 0;
 							}
 							else {
 								int i = (int) cell.getNumericCellValue();
-								String chaine = String.valueOf(i);
-								date = chaine;
+								date = i;
 							}
 						}
 						
@@ -470,12 +508,10 @@ public class POI extends ListPersonne{
 						
 						//System.out.println("clm carte "+ clm_carte);
 						if(cell.getColumnIndex() == clm_carte){
-							if(c.strcarte(cell.getStringCellValue()) == true) {
-								carte = carte = cell.getStringCellValue();
-							}
 							
-							else {
-								System.out.println("carte" +cell.getStringCellValue());
+							
+							if (c.tailleS(cell.getStringCellValue()) == 14){
+								//System.out.println("carte" +cell.getStringCellValue());
 								String c = cell.getStringCellValue();
 								String sep;
 								int a = 0;
@@ -491,6 +527,10 @@ public class POI extends ListPersonne{
 								}
 								carte = chaine;
 								//System.out.println("clm carte "+ clm_carte);
+							}
+							
+							else {
+								carte = cell.getStringCellValue();
 							}
 							
 						}
@@ -509,8 +549,8 @@ public class POI extends ListPersonne{
 				prenom = "";
 			}
 			
-			if(date == null) {
-				date = "";
+			if(date == 0) {
+				date = 0;
 			}
 			
 			if(statut == null) {
@@ -561,6 +601,8 @@ public class POI extends ListPersonne{
 		XSSFSheet sheet;
 		
 		wb = new XSSFWorkbook();
+		CellStyle cellStyle = wb.createCellStyle(); 
+		cellStyle.setDataFormat((short)14);
 		
 		for(int k = 0; k < 1; k++) {
 			sheet = wb.createSheet("ma feuille "+k);
@@ -583,7 +625,16 @@ public class POI extends ListPersonne{
 						cell.setCellValue(pr.get(j).getPrenom());
 					}
 					else if(i == 3) {
-						cell.setCellValue(pr.get(j).getDate_fin());
+						
+						String chaine = Integer.toString(pr.get(j).getDate_fin());
+						char ch = chaine.charAt(0);
+						if(ch == '2' && chaine.charAt(1) == '0') {
+							cell.setCellValue(pr.get(j).getDate_fin());
+						}
+						else {
+							cell.setCellStyle(cellStyle); 
+							cell.setCellValue(pr.get(j).getDate_fin());
+						}
 					}
 					else if(i == 4) {
 						cell.setCellValue(pr.get(j).getstatut());

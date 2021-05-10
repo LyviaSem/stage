@@ -87,15 +87,43 @@ public class Condition {
 	}
 	
 	//cette fonction vérifie si la cellule courente contien les bibliothèques
-	public boolean date_naissance(double d) {
+	public boolean date_fin(double d) {
 	
+		System.out.println("chaine "+d);
 		int in = (int) d;
 		String chaine = String.valueOf(in);
-		for(int i = 0; i<2; i++){
+		
+		//System.out.println("chaine "+chaine);
+		
+		if(this.tailleS(chaine) > 2) {
+			
+			for(int i = 0; i < 2; i++){
+				char ch = chaine.charAt(i);
+			
+				//une année de naissance peut commencé par 19 ou 20 si ce n'est pas le cas de la cellule courante ce n'est pas une date de naissance
+				if( (ch == '2') &&  (chaine.charAt(i+1) == '0')){
+					return true;
+				}
+			}
+			
+		}
+		
+		return false;
+	}
+	
+	public boolean caractere(double d) {
+		
+		System.out.println("chaine "+d);
+		int in = (int) d;
+		String chaine = String.valueOf(in);
+		
+		//System.out.println("chaine "+chaine);
+		
+		for(int i = 0; i < 2; i++){
 			char ch = chaine.charAt(i);
 			
 			//une année de naissance peut commencé par 19 ou 20 si ce n'est pas le cas de la cellule courante ce n'est pas une date de naissance
-			if(((ch == '1') &&  (chaine.charAt(i+1) == '9')) || ((ch == '2') &&  (chaine.charAt(i+1) == '0'))){
+			if( (ch == '/') ){
 				return true;
 			}
 		}
@@ -178,6 +206,23 @@ public class Condition {
 				return true;
 			}
 		}
+		return false;
+	}
+	
+	
+	public boolean niv_4(String s) {
+		
+		if(s.length() > 0) {
+			char ch = s.charAt(0);
+		
+			//on elimine les chaine de caractère qui contienne une virgule (cellule des nom et prénom) et celle qui contienne des tiret (cellule des bibliothèque)
+			if( ((ch == 'N') && (s.charAt(1) == 'U') && (s.charAt(2) == 'L') ) ){
+			//System.out.println("ch "+ch);
+			//System.out.println("ch1 "+s.charAt(1));
+				return true;
+			}
+		}
+		
 		return false;
 	}
 	

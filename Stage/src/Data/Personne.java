@@ -6,7 +6,7 @@ public class Personne {
 	private String ID;
 	private String NOM;
 	private String prenom;
-	private String date_fin;
+	private int date_fin;
 	private String statut;
 	private String bibliotheque;
 	private String structure_3e;
@@ -15,7 +15,7 @@ public class Personne {
 	private String num_carte;
 	
 	//constructeur du type "personne"
-	public Personne(String ID, String NOM, String prenom, String date_fin, String statut, String bibliotheque, String structure_3e, String structure_4e, String service, String num_carte) {
+	public Personne(String ID, String NOM, String prenom, int date_fin, String statut, String bibliotheque, String structure_3e, String structure_4e, String service, String num_carte) {
 		
 		this.ID = ID;
 		this.NOM = NOM;
@@ -52,10 +52,10 @@ public class Personne {
 		this.prenom = prenom;
 	}
 	
-	public String getDate_fin() {
+	public int getDate_fin() {
 		return date_fin;
 	}
-	public void setDate_fin(String date_naissance) {
+	public void setDate_fin(int date_naissance) {
 		this.date_fin = date_naissance;
 	}
 	
