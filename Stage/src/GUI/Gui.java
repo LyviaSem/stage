@@ -183,17 +183,17 @@ public class Gui extends JFrame{
 			// TODO Auto-generated method stub
 			
 			Object source = e.getSource();
-			fc.setBackground(Color.red);
-			fc.setFileView(view);
+			//fc.setBackground(Color.red);
+			//fc.setFileView(view);
 			//System.out.println("fc "+view);
 			
-			fc.setFileSelectionMode(fc.FILES_ONLY);
+			//fc.setFileSelectionMode(fc.FILES_ONLY);
 
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel file", "xlsx");                                
 			fc.addChoosableFileFilter(filter);
 			
-			int val = fc.showDialog(frame, "selection");
 			fc.setMultiSelectionEnabled(true);
+			int val = fc.showOpenDialog(null);
 			if(val == JFileChooser.APPROVE_OPTION) {
 				
 				File[] file = fc.getSelectedFiles();

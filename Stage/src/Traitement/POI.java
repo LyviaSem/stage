@@ -28,7 +28,7 @@ public class POI extends ListPersonne{
 	Condition c = new Condition();
 
 	//fonction qui lit un fichier excel donnée et insert les information voulu dans une ArrayList, elle prend le chemin du fichier en argument
-	public void lecture(File file/*, File file2, File file3*/)  {
+	public void lecture1(File file)  {
 		
 		//initialisation 
 		XSSFRow row = null;
@@ -52,9 +52,7 @@ public class POI extends ListPersonne{
 		int clm_statut = -1;
 		int clm_3 = -1;
 		int clm_4 = -1;
-		int clm_service = -1;
 		int clm_bibliotheque = -1;
-		int clm_carte = -1;
 		
 		int cmp_row = 1;
 		int totalLigne = 0;
@@ -83,7 +81,7 @@ public class POI extends ListPersonne{
 				cell1 = (XSSFCell) cellIt.next();
 			
 				
-				System.out.println("type "+cell1.getCellType());
+				//System.out.println("type "+cell1.getCellType());
 				switch(cell1.getCellType()) {
 			
 				case STRING :
@@ -128,19 +126,6 @@ public class POI extends ListPersonne{
 						clm_4 = cell1.getColumnIndex();
 					}
 					
-					if( (c.service(cell1.getStringCellValue()) == true) && (c.tailleS(cell1.getStringCellValue()) < 4)) {
-						//System.out.println("cel"+ cell1.getStringCellValue());
-						clm_service = cell1.getColumnIndex();
-					}
-				
-					//System.out.println("taille " +c.tailleS(cell1.getStringCellValue()));
-					//System.out.println("cell " +cell1.getStringCellValue());
-					if( (c.carte(cell1.getStringCellValue()) == true) && (c.tailleS(cell1.getStringCellValue()) == 14)) {
-						
-						clm_carte = cell1.getColumnIndex();
-					}
-					
-					//System.out.println("date fin "+c.date_fin(cell1.getStringCellValue()));
 				
 			
 					break;
@@ -158,8 +143,6 @@ public class POI extends ListPersonne{
 				
 					break;
 					
-				case FORMULA :
-					clm_carte = cell1.getColumnIndex();
 				}
 			
 		}
@@ -305,31 +288,6 @@ public class POI extends ListPersonne{
 			}
 			
 			
-			if(clm_carte == -1) {
-				
-				
-				do {
-					//System.out.println("oui");
-					row = sheet.getRow(cmp_row+1);
-					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
-					
-						cell1 = (XSSFCell) cellIt.next();
-						
-						if(cell1.getCellType() == CellType.STRING) {
-							
-							//System.out.println("taille " +c.tailleS(cell1.getStringCellValue()));
-							//System.out.println("cell " +cell1.getStringCellValue());
-							if( (c.carte(cell1.getStringCellValue()) == true)  && (c.tailleS(cell1.getStringCellValue()) == 14)) {
-								clm_carte = cell1.getColumnIndex();
-							}
-						}
-					}
-					cmp_row++;
-					
-				}while((clm_carte == -1) && (cmp_row < totalLigne-1));
-				
-				cmp_row = 1;
-			}
 			
 			
 			if(clm_3 == -1) {
@@ -380,35 +338,6 @@ public class POI extends ListPersonne{
 			}
 			
 			
-			if(clm_service == -1) {
-				
-				
-				do {
-					//System.out.println("oui");
-					row = sheet.getRow(cmp_row+1);
-					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
-					
-						cell1 = (XSSFCell) cellIt.next();
-						
-						if(cell1.getCellType() == CellType.STRING) {
-							
-							//System.out.println("clm "+ cell1.getStringCellValue());
-							//System.out.println("service "+ c.service(cell1.getStringCellValue()));
-							//System.out.println("taille "+ c.tailleS(cell1.getStringCellValue()));
-							if( (c.service(cell1.getStringCellValue()) == true) && (c.tailleS(cell1.getStringCellValue()) <= 4)) {
-								//System.out.println("clm "+ cell1.getStringCellValue());
-								clm_service = cell1.getColumnIndex();
-							}
-							//System.out.println("clm service "+clm_service);
-						}
-					}
-					cmp_row++;
-					
-				}while((clm_carte == -1) && (cmp_row < totalLigne-1));
-				
-				cmp_row = 1;
-			}
-			
 			
 		row = null;
 		for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
@@ -440,7 +369,8 @@ public class POI extends ListPersonne{
 							
 							nom = fields[0];
 							if(fields.length > 1) {
-							prenom = fields[1];	
+								fields[1] = fields[1].replaceAll("\\s", "");
+								prenom = fields[1];	
 							}
 						}
 						
@@ -500,41 +430,6 @@ public class POI extends ListPersonne{
 						}
 						
 						
-						if(cell.getColumnIndex() == clm_service){
-							service = cell.getStringCellValue();
-							//System.out.println("clm poste "+ clm_poste);
-						}
-						
-						
-						//System.out.println("clm carte "+ clm_carte);
-						if(cell.getColumnIndex() == clm_carte){
-							
-							
-							if (c.tailleS(cell.getStringCellValue()) == 14){
-								//System.out.println("carte" +cell.getStringCellValue());
-								String c = cell.getStringCellValue();
-								String sep;
-								int a = 0;
-								int b = 2;
-								String chaine = "";
-								
-								for(int i = 0; i < c.length(); i += 2) {
-									sep = c.substring(a,b);
-									a += 2;
-									b += 2;
-								
-									chaine = sep + chaine ;
-								}
-								carte = chaine;
-								//System.out.println("clm carte "+ clm_carte);
-							}
-							
-							else {
-								carte = cell.getStringCellValue();
-							}
-							
-						}
-						
 			}
 			
 			if(ID == null) {
@@ -592,6 +487,256 @@ public class POI extends ListPersonne{
 		catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void lecture2(File file) {
+		
+		XSSFRow row = null;
+		XSSFCell cell = null;
+		XSSFCell cell1 = null;
+		XSSFCell cell2 = null;
+		
+		String ID;
+		String nom;
+		String prenom;
+		int date;
+		String statut;
+		String bibliotheque;
+		String niveau_3;
+		String niveau_4;
+		String service;
+		String carte;
+		
+		int clm_nom = -1;
+		int clm_prenom = -1;
+		int clm_carte = -1;
+		
+		int cmp_row = 1;
+		int totalLigne = 0;
+		int cmp = 0;
+		
+		try {
+		
+		//initialisation
+		FileInputStream inputstream = new FileInputStream(file);
+		//System.out.println(file);
+		
+		XSSFWorkbook workbook = new XSSFWorkbook(inputstream);
+		
+		XSSFSheet sheet = workbook.getSheetAt(0);
+		
+		
+		for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
+			row = (XSSFRow) rowIt.next();
+			totalLigne++;
+		}
+		System.out.println(totalLigne);
+		
+		row = sheet.getRow(0);
+		
+			//boucle qui va parcourir toute les cellule de la 1ere ligne du fichier
+			for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+				cell1 = (XSSFCell) cellIt.next();
+			
+				
+				//System.out.println("type "+cell1.getCellType());
+				switch(cell1.getCellType()) {
+			
+				case STRING :
+					System.out.println("cell S "+cell1.getStringCellValue());
+					System.out.println("cell it "+cellIt.next().getStringCellValue());
+				
+					if( cell1.getStringCellValue().equals(pr.get(0).getNom()) && cellIt.next().getStringCellValue().equals(pr.get(0).getPrenom())) {	
+						clm_nom = cell1.getColumnIndex();
+						clm_prenom = cell1.getColumnIndex()+1;
+					}
+						
+				
+					if( (c.carte(cell1.getStringCellValue()) == true) && (c.tailleS(cell1.getStringCellValue()) == 14)) {
+						
+						clm_carte = cell1.getColumnIndex();
+						System.out.println("clm c "+clm_carte);
+					}
+					
+					//System.out.println("date fin "+c.date_fin(cell1.getStringCellValue()));
+				
+			
+					break;
+					
+				}
+			
+		}
+			
+			
+			
+			if(clm_nom == -1) {
+				
+				do {
+					row = sheet.getRow(cmp_row);
+					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+					
+						cell1 = (XSSFCell) cellIt.next();
+						
+						
+						if(cell1.getCellType() == CellType.STRING) {
+							
+							
+							
+							if(  pr.get(1).getPrenom().equals(cell1.getStringCellValue()) &&  pr.get(1).getNom().equals(cellIt.next().getStringCellValue().toUpperCase())) {	
+								System.out.println("trouver");
+								clm_prenom = cell1.getColumnIndex();
+								clm_nom = cell1.getColumnIndex()+1;
+							}
+							/*System.out.println("fin");*/
+							System.out.println("clm p "+clm_prenom);
+							System.out.println("clm n " +clm_nom);
+						}
+					}
+					cmp_row++;
+				}while(clm_nom == -1 && cmp_row < totalLigne-1);
+				
+				cmp_row = 1;
+			}
+			
+			
+			
+			
+			
+			
+			if(clm_carte == -1) {
+				
+				
+				do {
+					//System.out.println("oui");
+					row = sheet.getRow(cmp_row+1);
+					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+					
+						cell1 = (XSSFCell) cellIt.next();
+						
+						if(cell1.getCellType() == CellType.STRING) {
+							
+							//System.out.println("taille " +c.tailleS(cell1.getStringCellValue()));
+							//System.out.println("cell " +cell1.getStringCellValue());
+							if( (c.carte(cell1.getStringCellValue()) == true)  && (c.tailleS(cell1.getStringCellValue()) == 14)) {
+								clm_carte = cell1.getColumnIndex();
+							}
+						}
+					}
+					cmp_row++;
+					
+				}while((clm_carte == -1) && (cmp_row < totalLigne-1));
+				
+				cmp_row = 1;
+				System.out.println("clm c "+clm_carte);
+			}
+			
+			
+			
+			
+			
+		row = null;
+		for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
+			row = (XSSFRow) rowIt.next();
+			
+			
+			carte = null;
+			
+			for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+				cell = (XSSFCell) cellIt.next();
+				
+				System.out.println("cell "+ cell);
+						
+						for(int j = 0; j < pr.size(); j++) {
+							
+							if( (cell.getColumnIndex() == clm_carte) && (pr.get(j).getPrenom().equals(row.getCell(clm_prenom).getStringCellValue().toUpperCase())) && (pr.get(j).getNom().equals(row.getCell(clm_nom).getStringCellValue().toUpperCase())) ){
+								System.out.println("cell "+ cell);
+							
+								if (c.tailleS(cell.getStringCellValue()) == 14){
+									//System.out.println("carte" +cell.getStringCellValue());
+									String c = cell.getStringCellValue();
+									String sep;
+									int a = 0;
+									int b = 2;
+									String chaine = "";
+									
+									for(int i = 0; i < c.length(); i += 2) {
+										sep = c.substring(a,b);
+										a += 2;
+										b += 2;
+								
+										chaine = sep + chaine ;
+									}
+									pr.get(j).setNum_carte(chaine);
+									System.out.println(pr.get(j));
+									//System.out.println("clm carte "+ clm_carte);
+								}
+								
+								else {
+									pr.get(j).setNum_carte(cell.getStringCellValue());
+									System.out.println(pr.get(j));
+								}
+							}
+							
+						}
+						
+			}
+			
+			/*if(ID == null) {
+				ID = "";
+			}
+			
+			if(nom == null) {
+				nom = "";
+			}
+			
+			if(prenom == null) {
+				prenom = "";
+			}
+			
+			if(date == 0) {
+				date = 0;
+			}
+			
+			if(statut == null) {
+				statut = "";
+			}
+			
+			if(bibliotheque == null) {
+				bibliotheque = "";
+			}
+			
+			if(niveau_3 == null) {
+				niveau_3 = "";
+			}
+			
+			if(niveau_4 == null) {
+				niveau_4 = "";
+			}
+			
+			if(service == null) {
+				service = "";
+			}
+			
+			if(carte == null) {
+				carte = "";
+			}
+			
+			Personne personne = new Personne(ID, nom, prenom, date, statut, bibliotheque, niveau_3, niveau_4, service, carte);
+			add(personne);
+			//System.out.println(personne);
+			//System.out.println("fin ");*/
+			
+			
+		}
+		
+	}
+		catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	//la fonction ecrire ecrit les données stocké dans l'ArrayList dans un nouveau fichier excel 

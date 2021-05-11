@@ -89,7 +89,7 @@ public class Condition {
 	//cette fonction vérifie si la cellule courente contien les bibliothèques
 	public boolean date_fin(double d) {
 	
-		System.out.println("chaine "+d);
+		//System.out.println("chaine "+d);
 		int in = (int) d;
 		String chaine = String.valueOf(in);
 		
@@ -113,7 +113,7 @@ public class Condition {
 	
 	public boolean caractere(double d) {
 		
-		System.out.println("chaine "+d);
+		//System.out.println("chaine "+d);
 		int in = (int) d;
 		String chaine = String.valueOf(in);
 		
@@ -227,4 +227,6 @@ public class Condition {
 	}
 	
 }
+
+
 
