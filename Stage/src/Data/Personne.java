@@ -103,7 +103,7 @@ public class Personne {
 	
 	//affichage des "personne"
 		public String toString() {
-			return " ID = " + ID + "\n NOM = " + NOM + "\n Prénom = " + prenom + "\n Date de naissance = " + date_fin + "\n statut = " + statut + "\n Bibliothèque = " + bibliotheque + "\n Structure_de_3e_niveau = " + structure_3e + "\n Structure_de_4e_niveau = " + structure_4e + "service = " + service + "\n Numéro de carte = " + num_carte + "";
+			return " ID = " + ID + "\n NOM = " + NOM + "\n Prénom = " + prenom + "\n Date de fin = " + date_fin + "\n statut = " + statut + "\n Bibliothèque = " + bibliotheque + "\n Structure_de_3e_niveau = " + structure_3e + "\n Structure_de_4e_niveau = " + structure_4e + "\n service = " + service + "\n Numéro de carte = " + num_carte + "";
 		}
 	
 
