@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
+import Traitement.POI;
 
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
@@ -18,7 +18,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.awt.Color;
-import java.awt.Button;
 
 public class Window {
 
@@ -26,7 +25,12 @@ public class Window {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
 	private final ButtonGroup buttonGroup_2 = new ButtonGroup();
-	private File[] file;
+	JLabel lblNewLabel;
+	JLabel lblNewLabel_1;
+	JLabel lblNewLabel_2;
+	private File[] file = new File[3];
+	int cmp = 0;
+	POI poi = new POI();
 
 	/**
 	 * Launch the application.
@@ -55,6 +59,7 @@ public class Window {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frmFichier = new JFrame();
 		frmFichier.getContentPane().setBackground(Color.WHITE);
 		frmFichier.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\lyvia.semaoune\\git\\stage\\Stage\\src\\Image\\fichier.png"));
@@ -72,23 +77,23 @@ public class Window {
 			public void mouseClicked(MouseEvent e) {
 					
 					// TODO Auto-generated method stub
-					Object source = e.getSource();
+					//Object source = e.getSource();
 					FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel file", "xlsx");                                
 					fc.addChoosableFileFilter(filter);
 					
-					fc.setMultiSelectionEnabled(true);
+					//fc.setMultiSelectionEnabled(true);
 					int val = fc.showOpenDialog(null);
 					
 				
 					if(val == JFileChooser.APPROVE_OPTION) {
+						fc.setMultiSelectionEnabled(true);
+						file[cmp] = fc.getSelectedFile();
 						
-						file = fc.getSelectedFiles();
-						
-						for(int i = 0; i < file.length; i++) {
+						/*for(int i = 0; i < file.length; i++) {
 							System.out.println(file[i]);
-							System.out.println(file.length);
+							//System.out.println(file.length);
 						}
-					//poi.lecture(file);
+						//poi.lecture(file);
 						//poi.ecrire();
 						
 						//action = true;
@@ -103,23 +108,46 @@ public class Window {
 						System.out.println("erreur");
 					}
 					
-			}
+					cmp += 1;
+					//System.out.println("fin");
+					
+					if (file[0] != null && cmp == 1) {
+						lblNewLabel.setText(lblNewLabel.getText() + file[0].getName());
+					}
+					if (file[1] != null && cmp == 2) {
+						lblNewLabel_1.setText(lblNewLabel_1.getText() + file[1].getName());
+					}
+					if (file[2] != null && cmp == 3) {
+						lblNewLabel_2.setText(lblNewLabel_2.getText() + file[2].getName());
+					}
+					
+					 frmFichier.repaint();					
+					/*if(file[0] != null && file[1] != null && file[2] != null) {
+						poi.lecture1(file[0]);
+						poi.lecture2(file[1]);
+						poi.lecture3(file[2]);
+						poi.ecrire();
+					}*/
+					
+			}	
+			
 		});
+		
 		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 28, SpringLayout.NORTH, frmFichier.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 10, SpringLayout.WEST, frmFichier.getContentPane());
 		frmFichier.getContentPane().add(btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("Fichier 1 : ");
+		lblNewLabel = new JLabel("Fichier 1 : ");
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 26, SpringLayout.SOUTH, btnNewButton);
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 0, SpringLayout.WEST, btnNewButton);
 		frmFichier.getContentPane().add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Fichier 2 : ");
+		lblNewLabel_1 = new JLabel("Fichier 2 : ");
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 29, SpringLayout.SOUTH, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 0, SpringLayout.WEST, btnNewButton);
 		frmFichier.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Fichier 3 : ");
+		lblNewLabel_2 = new JLabel("Fichier 3 : ");
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 30, SpringLayout.SOUTH, lblNewLabel_1);
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 0, SpringLayout.WEST, btnNewButton);
 		frmFichier.getContentPane().add(lblNewLabel_2);
@@ -134,7 +162,7 @@ public class Window {
 		frmFichier.getContentPane().add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Fichier Poste :");
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_5, -312, SpringLayout.EAST, frmFichier.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_5, 0, SpringLayout.EAST, lblNewLabel_3);
 		frmFichier.getContentPane().add(lblNewLabel_5);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Fichier 1");
@@ -189,9 +217,9 @@ public class Window {
 		frmFichier.getContentPane().add(rdbtnNewRadioButton_5);
 		
 		JRadioButton rdbtnNewRadioButton_6 = new JRadioButton("Fichier 1 ");
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_5, -10, SpringLayout.NORTH, rdbtnNewRadioButton_6);
 		rdbtnNewRadioButton_6.setSelected(true);
 		rdbtnNewRadioButton_6.setActionCommand("fichier 1");;
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_5, -9, SpringLayout.NORTH, rdbtnNewRadioButton_6);
 		springLayout.putConstraint(SpringLayout.NORTH, rdbtnNewRadioButton_6, 212, SpringLayout.NORTH, frmFichier.getContentPane());
 		rdbtnNewRadioButton_6.setBackground(Color.WHITE);
 		buttonGroup_2.add(rdbtnNewRadioButton_6);
@@ -218,6 +246,46 @@ public class Window {
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				if((file[0] != null && file[1] != null && file[2] != null) && (buttonGroup.getSelection().getActionCommand() != buttonGroup_1.getSelection().getActionCommand() && buttonGroup.getSelection().getActionCommand() != buttonGroup_2.getSelection().getActionCommand() && buttonGroup_1.getSelection().getActionCommand() != buttonGroup_2.getSelection().getActionCommand())) {
+					switch (buttonGroup.getSelection().getActionCommand()) {
+					case "fichier 1":
+						poi.lecture1(file[0]);
+						break;
+					case "fichier 2":
+						poi.lecture1(file[1]);
+						break;
+					case "fichier 3":
+						poi.lecture1(file[2]);
+						break;
+					}
+				
+					switch (buttonGroup_1.getSelection().getActionCommand()) {
+					case "fichier 1":
+						poi.lecture2(file[0]);
+						break;
+					case "fichier 2":
+						poi.lecture2(file[1]);
+						break;
+					case "fichier 3":
+						poi.lecture2(file[2]);
+						break;
+					}
+				
+					switch (buttonGroup_2.getSelection().getActionCommand()) {
+					case "fichier 1":
+						poi.lecture3(file[0]);
+						break;
+					case "fichier 2":
+						poi.lecture3(file[1]);
+						break;
+					case "fichier 3":
+						poi.lecture3(file[2]);
+						break;
+					}
+				poi.ecrire();
+				}
+				
 				System.out.println(buttonGroup.getSelection().getActionCommand());
 				System.out.println(buttonGroup_1.getSelection().getActionCommand());
 				System.out.println(buttonGroup_2.getSelection().getActionCommand());			}
@@ -225,5 +293,8 @@ public class Window {
 		springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton_1, -10, SpringLayout.SOUTH, frmFichier.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, -43, SpringLayout.EAST, frmFichier.getContentPane());
 		frmFichier.getContentPane().add(btnNewButton_1);
+	}
+	
+	public void repaint() {
 	}
 }

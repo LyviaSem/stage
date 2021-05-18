@@ -15,7 +15,7 @@ public class Test {
 		POI poi = new POI();
 		poi.lecture1(file);
 		poi.lecture2(file1);
-		//poi.lecture3(file2);
+		poi.lecture3(file2);
 		poi.ecrire();
 	}
 
