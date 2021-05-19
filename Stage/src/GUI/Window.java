@@ -28,6 +28,7 @@ public class Window {
 	JLabel lblNewLabel;
 	JLabel lblNewLabel_1;
 	JLabel lblNewLabel_2;
+	JLabel lblNewLabel_6;
 	private File[] file = new File[3];
 	int cmp = 0;
 	POI poi = new POI();
@@ -84,24 +85,14 @@ public class Window {
 					//fc.setMultiSelectionEnabled(true);
 					int val = fc.showOpenDialog(null);
 					
+					for(int i = 0; i < file.length; i++) {
+						System.out.println(file[i]);
+					}
+					
 				
 					if(val == JFileChooser.APPROVE_OPTION) {
 						fc.setMultiSelectionEnabled(true);
 						file[cmp] = fc.getSelectedFile();
-						
-						/*for(int i = 0; i < file.length; i++) {
-							System.out.println(file[i]);
-							//System.out.println(file.length);
-						}
-						//poi.lecture(file);
-						//poi.ecrire();
-						
-						//action = true;
-						//System.out.println(action);
-						/*if(action == true) {
-							panel.add(label);
-						}*/
-						
 					}
 					
 					else {
@@ -109,7 +100,6 @@ public class Window {
 					}
 					
 					cmp += 1;
-					//System.out.println("fin");
 					
 					if (file[0] != null && cmp == 1) {
 						lblNewLabel.setText(lblNewLabel.getText() + file[0].getName());
@@ -122,12 +112,6 @@ public class Window {
 					}
 					
 					 frmFichier.repaint();					
-					/*if(file[0] != null && file[1] != null && file[2] != null) {
-						poi.lecture1(file[0]);
-						poi.lecture2(file[1]);
-						poi.lecture3(file[2]);
-						poi.ecrire();
-					}*/
 					
 			}	
 			
@@ -161,7 +145,7 @@ public class Window {
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_4, 335, SpringLayout.EAST, lblNewLabel_1);
 		frmFichier.getContentPane().add(lblNewLabel_4);
 		
-		JLabel lblNewLabel_5 = new JLabel("Fichier Poste :");
+		JLabel lblNewLabel_5 = new JLabel("Fichier Service :");
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_5, 0, SpringLayout.EAST, lblNewLabel_3);
 		frmFichier.getContentPane().add(lblNewLabel_5);
 		
@@ -284,17 +268,37 @@ public class Window {
 						break;
 					}
 				poi.ecrire();
+				file = null;
+				file = new File[3];
+				cmp = 0 ;
+				
+				lblNewLabel.setText("fichier 1 : ");
+				lblNewLabel_1.setText("fichier 2 : ");
+				lblNewLabel_2.setText("fichier 3 : ");
+				for(int i = 0; i < file.length; i++) {
+					System.out.println(file[i]);
 				}
 				
-				System.out.println(buttonGroup.getSelection().getActionCommand());
-				System.out.println(buttonGroup_1.getSelection().getActionCommand());
-				System.out.println(buttonGroup_2.getSelection().getActionCommand());			}
+				
+				lblNewLabel_6.setForeground(Color.BLUE);
+				lblNewLabel_6.setText("nouveau fichier créé");
+				frmFichier.repaint();
+				}
+				else {
+					lblNewLabel_6.setForeground(Color.RED);
+					lblNewLabel_6.setText("ERREUR");
+				}
+			}
 		});
 		springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton_1, -10, SpringLayout.SOUTH, frmFichier.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, -43, SpringLayout.EAST, frmFichier.getContentPane());
 		frmFichier.getContentPane().add(btnNewButton_1);
+		
+		lblNewLabel_6 = new JLabel("");
+		lblNewLabel_6.setBackground(Color.WHITE);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_6, 0, SpringLayout.SOUTH, btnNewButton_1);
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_6, -66, SpringLayout.WEST, btnNewButton_1);
+		frmFichier.getContentPane().add(lblNewLabel_6);
 	}
 	
-	public void repaint() {
-	}
 }

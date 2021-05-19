@@ -704,7 +704,7 @@ public class POI extends ListPersonne{
 		
 		XSSFWorkbook workbook = new XSSFWorkbook(inputstream);
 		
-		XSSFSheet sheet = workbook.getSheetAt(1);
+		XSSFSheet sheet = workbook.getSheetAt(0);
 		
 		
 		for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
@@ -768,7 +768,7 @@ public class POI extends ListPersonne{
 					}
 					cmp_row++;
 					//cmp_sheet++;
-				}while(clm_nom == -1 && cmp_row < totalLigne-1);
+				}while(clm_nom == -1 && cmp_row < totalLigne-2);
 				System.out.println("clm p "+clm_prenom);
 				System.out.println("clm n " +clm_nom);
 				cmp_row = 1;
@@ -919,7 +919,7 @@ public class POI extends ListPersonne{
 			}
 		}
 		System.out.println("taille pr "+pr.size());
-	  
+		pr.clear();
 
 		
 		FileOutputStream fileout;
