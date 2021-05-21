@@ -101,7 +101,7 @@ public class Condition {
 				char ch = chaine.charAt(i);
 			
 				//une année de naissance peut commencé par 19 ou 20 si ce n'est pas le cas de la cellule courante ce n'est pas une date de naissance
-				if( (ch == '2') &&  (chaine.charAt(i+1) == '0')){
+				if( (ch == '4') &&  (chaine.charAt(i+1) == '4')){
 					return true;
 				}
 			}
@@ -151,7 +151,7 @@ public class Condition {
 			char ch = s.charAt(0);
 		
 			//on elimine les chaine de caractère qui contienne une virgule (cellule des nom et prénom) et celle qui contienne des tiret (cellule des bibliothèque)
-			if((ch == 'D') && (s.charAt(1) == 'i')){
+			if(((ch == 'D') && (s.charAt(1) == 'i')) || ((ch == 'I') && (s.charAt(1) == 'n')) || ((ch == 'H') && (s.charAt(1) == 'o')) ){
 			//System.out.println("ch "+ch);
 			//System.out.println("ch1 "+s.charAt(1));
 				return true;

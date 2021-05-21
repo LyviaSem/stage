@@ -77,6 +77,7 @@ public class Window {
 			
 			public void mouseClicked(MouseEvent e) {
 					
+					lblNewLabel_6.setText("");
 					// TODO Auto-generated method stub
 					//Object source = e.getSource();
 					FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel file", "xlsx");                                

@@ -8,7 +8,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		File file = new File("fichier_entré/Classeur6.xlsx");
+		File file = new File("fichier_entré/Classeur1.xlsx");
 		File file1 = new File("fichier_entré/carte.xlsx");
 		File file2 = new File("fichier_entré/liste_evacuation.xlsx");
 		//System.out.println("file "+file);
