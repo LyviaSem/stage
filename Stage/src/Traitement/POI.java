@@ -28,7 +28,7 @@ public class POI extends ListPersonne{
 	//instence de la class Condition
 	Condition c = new Condition();
 
-	//fonction qui lit un fichier excel donnée et insert les information voulu dans une ArrayList, elle prend le chemin du fichier en argument
+	//fonction qui lit un fichier excel donnée et insert les informations voulu dans une ArrayList, elle prend le chemin du fichier en argument
 	public void lecture1(File file)  {
 		
 		//initialisation 
@@ -201,7 +201,7 @@ public class POI extends ListPersonne{
 						if(cell1.getCellType() == CellType.STRING) {
 							//System.out.println("cell "+c.biblio(cell1.getStringCellValue()));
 					
-							if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || ( (c.tailleS(cell1.getStringCellValue()) == 3) && (c.maj(cell1.getStringCellValue()) == true) ) || (c.b(cell1.getStringCellValue()) == true) ) {
+							if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || ( (c.tailleS(cell1.getStringCellValue()) == 3) && (c.maj(cell1.getStringCellValue()) == true) ) ) {
 					
 								clm_bibliotheque = cell1.getColumnIndex();
 							}
@@ -457,6 +457,8 @@ public class POI extends ListPersonne{
 		}
 	}
 	
+	
+	//fonction qui lit un fichier excel donnée et insert les informations voulu dans une ArrayList, elle prend le chemin du fichier en argument
 	public void lecture2(File file) {
 		
 		XSSFRow row = null;
@@ -615,8 +617,11 @@ public class POI extends ListPersonne{
 		
 	}
 	
+	
+	//fonction qui lit un fichier excel donnée et insert les informations voulu dans une ArrayList, elle prend le chemin du fichier en argument
 	public void lecture3(File file) {
 		
+		//initailisation 
 		XSSFRow row = null;
 		XSSFCell cell = null;
 		XSSFCell cell1 = null;
@@ -632,15 +637,15 @@ public class POI extends ListPersonne{
 		
 		try {
 		
-		//initialisation
+		
 		FileInputStream inputstream = new FileInputStream(file);
-		//System.out.println(file);
 		
 		XSSFWorkbook workbook = new XSSFWorkbook(inputstream);
 		
 		XSSFSheet sheet = workbook.getSheetAt(0);
 		
 		
+		//on compte le nombre de ligne du fichier
 		for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
 			row = (XSSFRow) rowIt.next();
 			totalLigne++;
@@ -648,23 +653,24 @@ public class POI extends ListPersonne{
 		System.out.println(totalLigne);
 		
 			
+			//on recherche la colone des nom et celle des prénom pour facilité la comparaison avec les nom de l'arraylist
 			if(clm_nom == -1 && clm_prenom == -1) {
-				//sheet = workbook.getSheetAt(cmp_sheet); 
+				
 				do {
-					//sheet = workbook.getSheetAt(cmp_sheet); 
+					//pour chaque ligne
 					row = sheet.getRow(cmp_row);
+					
+					//pour chaque cellule
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
 						if(cell1.getCellType() == CellType.STRING && row.getCell(cell1.getColumnIndex()+1).getCellType() == CellType.STRING ) {
-							System.out.println("cell " +cell1.getStringCellValue());
-							//System.out.println("cell next " +cellIt.next().getStringCellValue());
-							System.out.println("cell next 2 " + row.getCell(cell1.getColumnIndex()+1).getStringCellValue());
+							
+							//on compare la cellule courante et la suivante a chaque nom et prénom contenu dans l'arraylist 
 							for(int i = 1; i < pr.size(); i++) {
-								//System.out.println("cell next 2 " +cellIt.next().getStringCellValue());
 								if(  pr.get(i).getNom().equals(cell1.getStringCellValue().toLowerCase()) &&  pr.get(i).getPrenom().equals(row.getCell(cell1.getColumnIndex()+1).getStringCellValue().toLowerCase())) {	
-									System.out.println("trouver");
+							
 									clm_nom = cell1.getColumnIndex();
 									clm_prenom = cell1.getColumnIndex()+1;
 								}
@@ -673,36 +679,29 @@ public class POI extends ListPersonne{
 					}
 					cmp_row++;
 					System.out.println("clm nom "+clm_nom);
-					//cmp_sheet++;
 				}while(clm_nom == -1 && cmp_row < totalLigne-2);
-				//System.out.println("clm p "+clm_prenom);
-				//System.out.println("clm n " +clm_nom);
 				cmp_row = 1;
 			}
 			
 			
 			
-			
+			//on recherche la colone des service dans le fichier
 			if(clm_service == -1) {
 				
-				
 				do {
-					//System.out.println("oui");
+					//pour chaque ligne
 					row = sheet.getRow(cmp_row);
+					
+					//pour chaque cellule
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
 						if(cell1.getCellType() == CellType.STRING) {
 							
-							//System.out.println("clm "+ cell1.getStringCellValue());
-							//System.out.println("service "+ c.service(cell1.getStringCellValue()));
-							//System.out.println("taille "+ c.tailleS(cell1.getStringCellValue()));
 							if( (c.service(cell1.getStringCellValue()) == true) && (c.tailleS(cell1.getStringCellValue()) <= 4)) {
-								//System.out.println("clm "+ cell1.getStringCellValue());
 								clm_service = cell1.getColumnIndex();
 							}
-							//System.out.println("clm service "+clm_service);
 						}
 					}
 					cmp_row++;
@@ -715,28 +714,29 @@ public class POI extends ListPersonne{
 			
 			row = null;
 			
+			//on parcoure toute les feuilles
 			for(java.util.Iterator<Sheet> sheetIt = workbook.sheetIterator(); sheetIt.hasNext();) {
 				sheet = (XSSFSheet) sheetIt.next();
-				//System.out.println("sheet " + sheetIt.hasNext());
-			
+				
+				//toute les lignes
 				for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
 					row = (XSSFRow) rowIt.next();
-					//System.out.println("row " + rowIt.hasNext());
+		
 			
-			
+					//et toute les cellules
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 						cell = (XSSFCell) cellIt.next();
 				
 						if((cell.getCellType() == CellType.STRING) && (cell.getStringCellValue() != null) && (clm_service != -1 && clm_nom != -1 && clm_prenom != -1) ) {
-							//System.out.println("cell "+ cell.getStringCellValue());
+						
+							//comparaison avec tout les éléments de l'arraylist
 								for(int j = 0; j < pr.size(); j++) {
 								
+									//si les nom prénom du fichier corresponde au nom prénom de l'élement de l'arraylist
 									if( (cell.getColumnIndex() == clm_service) && (pr.get(j).getPrenom().equals(row.getCell(clm_prenom).getStringCellValue().toLowerCase())) && (pr.get(j).getNom().equals(row.getCell(clm_nom).getStringCellValue().toLowerCase())) ){
 										System.out.println("cell "+ cell);					
 										//System.out.println("clm "+ cell1.getStringCellValue());
 										pr.get(j).setService(cell.getStringCellValue());
-									
-									
 									}
 									
 								}
@@ -764,6 +764,7 @@ public class POI extends ListPersonne{
 	//la fonction ecrire ecrit les données stocké dans l'ArrayList dans un nouveau fichier excel 
 	public void ecrire(){
 		
+		//initailisation
 		XSSFWorkbook wb;
 		XSSFSheet sheet;
 		
@@ -771,59 +772,75 @@ public class POI extends ListPersonne{
 		CellStyle cellStyle = wb.createCellStyle(); 
 		cellStyle.setDataFormat((short)14);
 		
-		for(int k = 0; k < 1; k++) {
-			sheet = wb.createSheet("ma feuille "+k);
+		//on crèe une feuille
+		sheet = wb.createSheet("ma feuille "+1);
 			
 			
-			for(int j = 0; j < pr.size(); j++) {
-				
-				XSSFRow row = sheet.createRow(j);
+		for(int j = 0; j < pr.size(); j++) {
+			
+			//pour chaque élément de l'ArrayList on créé une ligne  
+			XSSFRow row = sheet.createRow(j);
+			
+			
 	    
-				for(int i = 0; i < 10; i++) {
+			//on remplie ensuite chaque celule avec un switch case
+			for(int i = 0; i <= 9; i++) {
+			
+				XSSFCell cell = row.createCell((short)i);
+				
+				switch(i) {
+				
+				case 0 : 
+					cell.setCellValue(pr.get(j).getID());
+					break;
 					
-					XSSFCell cell = row.createCell((short)i);
-					if(i == 0) {
-						cell.setCellValue(pr.get(j).getID());
+				case 1 :
+					cell.setCellValue(pr.get(j).getNom().toLowerCase());
+					break;
+
+				case 2 : 
+					cell.setCellValue(pr.get(j).getPrenom().toLowerCase());
+					break;
+
+				case 3 : 
+					String chaine = Integer.toString(pr.get(j).getDate_fin());
+					char ch = chaine.charAt(0);
+					if(ch == '2' && chaine.charAt(1) == '0') {
+						cell.setCellValue(pr.get(j).getDate_fin());
 					}
-					else if(i == 1) {
-						cell.setCellValue(pr.get(j).getNom().toLowerCase());
+					else {
+						cell.setCellStyle(cellStyle); 
+						cell.setCellValue(pr.get(j).getDate_fin());
 					}
-					else if(i == 2) {
-						cell.setCellValue(pr.get(j).getPrenom().toLowerCase());
-					}
-					else if(i == 3) {
-						
-						String chaine = Integer.toString(pr.get(j).getDate_fin());
-						char ch = chaine.charAt(0);
-						if(ch == '2' && chaine.charAt(1) == '0') {
-							cell.setCellValue(pr.get(j).getDate_fin());
-						}
-						else {
-							cell.setCellStyle(cellStyle); 
-							cell.setCellValue(pr.get(j).getDate_fin());
-						}
-					}
-					else if(i == 4) {
-						cell.setCellValue(pr.get(j).getstatut().toLowerCase());
-					}
-					else if(i == 5) {
-						cell.setCellValue(pr.get(j).getBibliotheque().toLowerCase());
-					}
-					else if(i == 6) {
-						cell.setCellValue(pr.get(j).getStructure_3e().toLowerCase());
-					}
-					else if(i == 7) {
-						cell.setCellValue(pr.get(j).getStructure_4e().toLowerCase());
-					}
-					else if(i == 8) {
-						cell.setCellValue(pr.get(j).getService());
-					}
-					else if(i == 9) {
-						cell.setCellValue(pr.get(j).getNum_carte());
-					}
-				}
+					break;
+
+				case 4 : 
+					cell.setCellValue(pr.get(j).getstatut().toLowerCase());
+					break;
+
+				case 5 : 
+					cell.setCellValue(pr.get(j).getBibliotheque().toLowerCase());
+					break;
+
+				case 6 : 
+					cell.setCellValue(pr.get(j).getStructure_3e().toLowerCase());
+					break;
+
+				case 7 : 
+					cell.setCellValue(pr.get(j).getStructure_4e().toLowerCase());
+					break;
+
+				case 8 : 
+					cell.setCellValue(pr.get(j).getService());
+					break;
+
+				case 9 : 
+					cell.setCellValue(pr.get(j).getNum_carte());
+					break;
+				} 
 			}
 		}
+		
 		System.out.println("taille pr "+pr.size());
 		pr.clear();
 

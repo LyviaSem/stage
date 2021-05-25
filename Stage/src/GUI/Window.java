@@ -93,23 +93,32 @@ public class Window {
 				
 					if(val == JFileChooser.APPROVE_OPTION) {
 						fc.setMultiSelectionEnabled(true);
-						file[cmp] = fc.getSelectedFile();
+						if(fc.getSelectedFile() != null) {
+							file[cmp] = fc.getSelectedFile();
+							cmp += 1;
+						}
 					}
 					
 					else {
 						System.out.println("erreur");
 					}
 					
-					cmp += 1;
-					
+					System.out.println("cmp "+cmp);
 					if (file[0] != null && cmp == 1) {
-						lblNewLabel.setText(lblNewLabel.getText() + file[0].getName());
+						if(lblNewLabel.getText().length() < 13) {
+							lblNewLabel.setText(lblNewLabel.getText() + file[0].getName());
+						}
 					}
 					if (file[1] != null && cmp == 2) {
-						lblNewLabel_1.setText(lblNewLabel_1.getText() + file[1].getName());
+						System.out.println("cmp "+cmp);
+						if(lblNewLabel_1.getText().length() < 13) {
+							lblNewLabel_1.setText(lblNewLabel_1.getText() + file[1].getName());
+						}
 					}
 					if (file[2] != null && cmp == 3) {
-						lblNewLabel_2.setText(lblNewLabel_2.getText() + file[2].getName());
+						if(lblNewLabel_2.getText().length() < 13) {
+							lblNewLabel_2.setText(lblNewLabel_2.getText() + file[2].getName());
+						}
 					}
 					
 					 frmFichier.repaint();					

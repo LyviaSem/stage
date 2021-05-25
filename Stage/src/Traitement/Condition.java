@@ -5,31 +5,39 @@ public class Condition {
 	//fonction qui determine et renvoie la taille du contenue d'une cellule numérique
 	public int tailleN(double d) {
 		
+		//on transforme la valeur double en valeur int
 		int i = (int) d;
+		//puis avec valueof il devien une chaine de caratère 
 		String chaine = String.valueOf(i);
 	
 		return chaine.length();
 	}
+	
 	
 	//fonction qui determine et renvoie la taille du contenue d'une cellule qui contien une chaine de caractère
 	public int tailleS(String s) {		
 		return s.length();
 	}
 
+	
 	//fonction qui vérifie si tout les caractère d'une chaine donné son en majuscule
 	public boolean maj(String s) {
 	
 		int compteur=0;
-			String result0 = s.replaceAll("-","");
-			String result = result0.replaceAll("\\s+","");
+		
+		//on garde que les lettre 
+		String result0 = s.replaceAll("-","");
+		String result = result0.replaceAll("\\s+","");
 			
-		for(int i = 0; i<s.length(); i++){
+		//on compte le nombre de lettre en majuscule
+		for(int i = 0; i < s.length(); i++){
 			char ch = s.charAt(i);
 			if(Character.isUpperCase(ch)){
 				compteur++;
 			}
 		}
 			
+		//on compare le nombre trouver avec la taille de la chaine
 		if(compteur == result.length()) {
 			return true;
 		}
@@ -37,6 +45,7 @@ public class Condition {
 		return false;
 	}
 
+	
 	//cette fonction vérifie si la cellule courente contien le nom et prenom d'une personne
 	public boolean nomprenom(String s) {
 	
@@ -51,6 +60,7 @@ public class Condition {
 	
 		return false;
 	}
+	
 	
 	//cette fonction vérifie si la cellule courente contien le statut d'une personne
 	public boolean statut(String s) {
@@ -72,11 +82,12 @@ public class Condition {
 		
 		return true;
 	}
+	
 
 	//cette fonction vérifie si la cellule courente contien les bibliothèques
 	public boolean biblio(String s) {
 	
-		for(int i = 0; i< s.length()-1; i++){
+		for(int i = 0; i < s.length()-1; i++){
 			char ch = s.charAt(i);
 			if((ch == ' ') && (s.charAt(i+1) == '-')){
 				return true;
@@ -86,21 +97,19 @@ public class Condition {
 		return false;
 	}
 	
+	
 	//cette fonction vérifie si la cellule courente contien les bibliothèques
 	public boolean date_fin(double d) {
 	
-		//System.out.println("chaine "+d);
+		//on transforme la varible double en chaine de caractère
 		int in = (int) d;
 		String chaine = String.valueOf(in);
-		
-		//System.out.println("chaine "+chaine);
 		
 		if(this.tailleS(chaine) > 2) {
 			
 			for(int i = 0; i < 2; i++){
 				char ch = chaine.charAt(i);
 			
-				//une année de naissance peut commencé par 19 ou 20 si ce n'est pas le cas de la cellule courante ce n'est pas une date de naissance
 				if( (ch == '4') &&  (chaine.charAt(i+1) == '4')){
 					return true;
 				}
@@ -111,7 +120,8 @@ public class Condition {
 		return false;
 	}
 	
-	public boolean caractere(double d) {
+	
+	/*public boolean caractere(double d) {
 		
 		//System.out.println("chaine "+d);
 		int in = (int) d;
@@ -122,27 +132,13 @@ public class Condition {
 		for(int i = 0; i < 2; i++){
 			char ch = chaine.charAt(i);
 			
-			//une année de naissance peut commencé par 19 ou 20 si ce n'est pas le cas de la cellule courante ce n'est pas une date de naissance
 			if( (ch == '/') ){
 				return true;
 			}
 		}
 		return false;
-	}
+	}*/
 	
-	//les bibliothèquessont soit composé de 3 lettre ou commence par le mot bibliotheque cette fonction vérifie si la chaine de caractère commence par le mot bibliothèque 
-	public boolean b(String s) {
-	
-		String separator = " ", fields[];
-	
-		fields = s.split(separator);
-		
-		if(fields[0].toString() == "Bibliothèque"){
-			
-			return false;
-		}
-		return false;	
-	}
 
 	//cette fonction vérifie si la cellule courante contien le poste d'une personne
 	public boolean poste(String s) {
@@ -152,8 +148,6 @@ public class Condition {
 		
 			//on elimine les chaine de caractère qui contienne une virgule (cellule des nom et prénom) et celle qui contienne des tiret (cellule des bibliothèque)
 			if(((ch == 'D') && (s.charAt(1) == 'i')) || ((ch == 'I') && (s.charAt(1) == 'n')) || ((ch == 'H') && (s.charAt(1) == 'o')) ){
-			//System.out.println("ch "+ch);
-			//System.out.println("ch1 "+s.charAt(1));
 				return true;
 			}
 		}
@@ -161,6 +155,8 @@ public class Condition {
 		return false;
 	}
 	
+	
+	//cette fonction vérifie si la cellule courante contien le numéro de carte d'une personne
 	public boolean carte(String s) {
 		
 		
@@ -169,7 +165,7 @@ public class Condition {
 			char ch = s.charAt(i);
 			
 			
-			//si il y a une vigule suivi d'un espace alors la cellule contient bien un nom et un prénom
+			//si la cellule commence avec cette combinaison de carrartère alors elle contient bien les numéros de carte
 			if((ch == '0') && (s.charAt(i-1) == '8') && (s.charAt(i-2) == 'C') && (s.charAt(i-3) == '5')){
 				return true;
 			}
@@ -178,15 +174,15 @@ public class Condition {
 		return false;
 	}
 	
+	
+	//cette fonction vérifie si la cellule courante contien le service d'une personne
 	public boolean service(String s) {
 		
 		if(s.length() > 0) {
 			char ch = s.charAt(0);
 		
-			//on elimine les chaine de caractère qui contienne une virgule (cellule des nom et prénom) et celle qui contienne des tiret (cellule des bibliothèque)
+			//si la cellule commence avec l'une de ces combinaison de carrartère alors elle contient bien les services
 			if( ((ch == 'P') && (s.charAt(1) == 'M')) || ( (ch == 'P') && (s.charAt(1) == 'O') ) ){
-			//System.out.println("ch "+ch);
-			//System.out.println("ch1 "+s.charAt(1));
 				return true;
 			}
 		}
@@ -194,31 +190,15 @@ public class Condition {
 		return false;
 	}
 
-	public boolean strcarte(String s) {
-		
-		if(s.length() > 0) {
-			char ch = s.charAt(0);
-		
-			//on elimine les chaine de caractère qui contienne une virgule (cellule des nom et prénom) et celle qui contienne des tiret (cellule des bibliothèque)
-			if( ((ch == 'N') && (s.charAt(1) == 'u') && (s.charAt(2) == 'm') ) ){
-			//System.out.println("ch "+ch);
-			//System.out.println("ch1 "+s.charAt(1));
-				return true;
-			}
-		}
-		return false;
-	}
 	
-	
+	//cette fonction vérifie si la cellule courante contien la structure de niveau 4 d'une personne
 	public boolean niv_4(String s) {
 		
 		if(s.length() > 0) {
 			char ch = s.charAt(0);
 		
-			//on elimine les chaine de caractère qui contienne une virgule (cellule des nom et prénom) et celle qui contienne des tiret (cellule des bibliothèque)
+			
 			if( ((ch == 'N') && (s.charAt(1) == 'U') && (s.charAt(2) == 'L') ) ){
-			//System.out.println("ch "+ch);
-			//System.out.println("ch1 "+s.charAt(1));
 				return true;
 			}
 		}
