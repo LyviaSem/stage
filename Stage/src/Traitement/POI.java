@@ -60,23 +60,21 @@ public class POI extends ListPersonne{
 		
 		try {
 		
-		//initialisation
-		FileInputStream inputstream = new FileInputStream(file);
-		//System.out.println(file);
+			//initialisation
+			FileInputStream inputstream = new FileInputStream(file);
 		
-		XSSFWorkbook workbook = new XSSFWorkbook(inputstream);
+			XSSFWorkbook workbook = new XSSFWorkbook(inputstream);
 		
-		XSSFSheet sheet = workbook.getSheetAt(0);
+			XSSFSheet sheet = workbook.getSheetAt(0);
 		
 		
-		for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
-			row = (XSSFRow) rowIt.next();
-			totalLigne++;
-		}
-		System.out.println(totalLigne);	
+			for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
+				row = (XSSFRow) rowIt.next();
+				totalLigne++;
+			}
 			
 			if(clm_ID == -1) {
-				
+			
 				do {
 					row = sheet.getRow(cmp_row+1);
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
@@ -84,7 +82,6 @@ public class POI extends ListPersonne{
 						cell1 = (XSSFCell) cellIt.next();
 						
 						if(cell1.getCellType() == CellType.NUMERIC) {
-							// System.out.println("cell "+cell1.getNumericCellValue());
 					
 							if(c.tailleN(cell1.getNumericCellValue()) <= 3) {
 								clm_ID = cell1.getColumnIndex();
@@ -92,13 +89,10 @@ public class POI extends ListPersonne{
 						}
 					}
 					cmp_row++;
-					
-					//System.out.println("cmp "+cmp_row);
-					//System.out.println("ligne "+totalLigne);
+						
 				}while(clm_ID == -1 && cmp_row < totalLigne-1);
 				
 				cmp_row = 1;
-				 //System.out.println("clm "+clm_ID);
 			}
 			
 			
@@ -147,9 +141,6 @@ public class POI extends ListPersonne{
 						
 						if(cell1.getCellType() == CellType.NUMERIC) {
 							
-							//System.out.println("cell  "+cell1.getStringCellValue());
-							//System.out.println("date fin  "+c.date_fin(cell1.getStringCellValue()));
-							//System.out.println("/  "+c.caractere(cell1.getStringCellValue()));
 							
 							if( (c.date_fin(cell1.getNumericCellValue()) == true) /*&& (c.caractere(cell1.getNumericCellValue()) == true)*/) {
 								clm_date = cell1.getColumnIndex();
@@ -193,13 +184,12 @@ public class POI extends ListPersonne{
 				
 				do {
 					row = sheet.getRow(cmp_row+1);
-					//System.out.println("cmp "+cmp_row+1);
+		
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
 						if(cell1.getCellType() == CellType.STRING) {
-							//System.out.println("cell "+c.biblio(cell1.getStringCellValue()));
 					
 							if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || ( (c.tailleS(cell1.getStringCellValue()) == 3) && (c.maj(cell1.getStringCellValue()) == true) ) ) {
 					
@@ -269,198 +259,187 @@ public class POI extends ListPersonne{
 			
 			
 			
-		row = null;
-		for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
-			row = (XSSFRow) rowIt.next();
+			row = null;
+			for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
+				row = (XSSFRow) rowIt.next();
 			
-			ID = null;
-			nom = null;
-			prenom = null;
-			date = 0;
-			statut = null;
-			niveau_3 = null;
-			niveau_4 = null;
-			service = null;
-			bibliotheque = null;
-			carte = null;
+				ID = null;
+				nom = null;
+				prenom = null;
+				date = 0;
+				statut = null;
+				niveau_3 = null;
+				niveau_4 = null;
+				service = null;
+				bibliotheque = null;
+				carte = null;
 			
-			for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
-				cell = (XSSFCell) cellIt.next();
-				
-				
-						
-						if(cell.getColumnIndex() == clm_nom) {
+				for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
+					cell = (XSSFCell) cellIt.next();
+								
+					if(cell.getColumnIndex() == clm_nom) {
 							
-							String separateur, fields[];
+						String separateur, fields[];
 							
 							
-							separateur = ", ";
-							fields = cell.getStringCellValue().toLowerCase().split(separateur);
+						separateur = ", ";
+						fields = cell.getStringCellValue().toLowerCase().split(separateur);
 							
+						fields[0] = fields[0].replaceAll("é", "e");
+						fields[0] = fields[0].replaceAll("è", "e");
+						fields[0] = fields[0].replaceAll("ê", "e");
+						fields[0] = fields[0].replaceAll("ç", "c");
+						fields[0] = fields[0].replaceAll("à", "a");
+						nom = fields[0];
+						if(fields.length > 1) {
 							fields[0] = fields[0].replaceAll("é", "e");
 							fields[0] = fields[0].replaceAll("è", "e");
 							fields[0] = fields[0].replaceAll("ê", "e");
 							fields[0] = fields[0].replaceAll("ç", "c");
 							fields[0] = fields[0].replaceAll("à", "a");
-							nom = fields[0];
-							if(fields.length > 1) {
-								fields[0] = fields[0].replaceAll("é", "e");
-								fields[0] = fields[0].replaceAll("è", "e");
-								fields[0] = fields[0].replaceAll("ê", "e");
-								fields[0] = fields[0].replaceAll("ç", "c");
-								fields[0] = fields[0].replaceAll("à", "a");
-								fields[1] = fields[1].replaceAll("\\s", "");
-								prenom = fields[1];	
-							}
+							fields[1] = fields[1].replaceAll("\\s", "");
+							prenom = fields[1];	
 						}
+					}
 						
 						
-						if(cell.getColumnIndex() == clm_bibliotheque){
+					if(cell.getColumnIndex() == clm_bibliotheque){
 							
-							String str = cell.getStringCellValue().toLowerCase();
-							str = str.replaceAll("é", "e");
-							str = str.replaceAll("è", "e");
-							str = str.replaceAll("ê", "e");
-							str = str.replaceAll("ç", "c");
-							str = str.replaceAll("à", "a");
-							bibliotheque = str;
-						}
+						String str = cell.getStringCellValue().toLowerCase();
+						str = str.replaceAll("é", "e");
+						str = str.replaceAll("è", "e");
+						str = str.replaceAll("ê", "e");
+						str = str.replaceAll("ç", "c");
+						str = str.replaceAll("à", "a");
+						bibliotheque = str;
+					}
 													
 						
-						if(cell.getColumnIndex() == clm_ID){
-							if(cell.getCellType() == CellType.STRING) {
-								ID = null;
-							}
-							else {
-								int i = (int) cell.getNumericCellValue();
-								//System.out.println("cellule "+ cell.getNumericCellValue());
-								String chaine = String.valueOf(i);
-								if(chaine.length() < 6) {
-									int var = 6 - chaine.length()  ;
+					if(cell.getColumnIndex() == clm_ID){
+						if(cell.getCellType() == CellType.STRING) {
+							ID = null;
+						}
+						else {
+							int i = (int) cell.getNumericCellValue();
+							String chaine = String.valueOf(i);
+							if(chaine.length() < 6) {
+								int var = 6 - chaine.length()  ;
 									
-									for(int j = 0; j < var; j++) {
-										chaine = "0"+chaine;
-									}
+								for(int j = 0; j < var; j++) {
+									chaine = "0"+chaine;
 								}
-								ID = "ID"+chaine;
 							}
+							ID = "ID"+chaine;
 						}
+					}
 						
 						
-						if(cell.getColumnIndex() == clm_statut){
+					if(cell.getColumnIndex() == clm_statut){
 							
-							String str = cell.getStringCellValue().toLowerCase();
-							str = str.replaceAll("é", "e");
-							str = str.replaceAll("è", "e");
-							str = str.replaceAll("ê", "e");
-							str = str.replaceAll("ç", "c");
-							str = str.replaceAll("à", "a");
-							statut = str;
-							//System.out.println("clm statut"+ clm_statut);
+						String str = cell.getStringCellValue().toLowerCase();
+						str = str.replaceAll("é", "e");
+						str = str.replaceAll("è", "e");
+						str = str.replaceAll("ê", "e");
+						str = str.replaceAll("ç", "c");
+						str = str.replaceAll("à", "a");
+						statut = str;
+					}
+						
+
+					if(cell.getColumnIndex() == clm_date){
+						if(cell.getCellType() == CellType.STRING) {
+							date = 0;
 						}
-						
-						
-						//System.out.println("clm_date" + clm_date);
-						if(cell.getColumnIndex() == clm_date){
-							if(cell.getCellType() == CellType.STRING) {
-								date = 0;
-							}
-							else {
-								int i = (int) cell.getNumericCellValue();
-								date = i;
-							}
+						else {
+							int i = (int) cell.getNumericCellValue();
+							date = i;
 						}
+					}
 						
 						
-						if(cell.getColumnIndex() == clm_3){
-							
-							String str = cell.getStringCellValue().toLowerCase();
-							str = str.replaceAll("é", "e");
-							str = str.replaceAll("è", "e");
-							str = str.replaceAll("ê", "e");
-							str = str.replaceAll("ç", "c");
-							str = str.replaceAll("à", "a");
-							niveau_3 = str;
-							//System.out.println("clm poste "+ clm_poste);
-						}
+					if(cell.getColumnIndex() == clm_3){
+								
+						String str = cell.getStringCellValue().toLowerCase();
+						str = str.replaceAll("é", "e");
+						str = str.replaceAll("è", "e");
+						str = str.replaceAll("ê", "e");
+						str = str.replaceAll("ç", "c");
+						str = str.replaceAll("à", "a");
+						niveau_3 = str;;
+					}
 						
 						
-						if(cell.getColumnIndex() == clm_4){
+					if(cell.getColumnIndex() == clm_4){
 				
-							String str = cell.getStringCellValue().toLowerCase();
-							str = str.replaceAll("é", "e");
-							str = str.replaceAll("è", "e");
-							str = str.replaceAll("ê", "e");
-							str = str.replaceAll("ç", "c");
-							str = str.replaceAll("à", "a");
-							niveau_4 = str;
-							//System.out.println("clm poste "+ clm_poste);
-						}
-						
-						
+						String str = cell.getStringCellValue().toLowerCase();
+						str = str.replaceAll("é", "e");
+						str = str.replaceAll("è", "e");
+						str = str.replaceAll("ê", "e");
+						str = str.replaceAll("ç", "c");
+						str = str.replaceAll("à", "a");
+						niveau_4 = str;
+					}		
+				}
+			
+				if(ID == null) {
+					ID = "";
+				}
+			
+				if(nom == null) {
+					nom = "";
+				}
+			
+				if(prenom == null) {
+					prenom = "";
+				}
+			
+				if(date == 0) {
+					date = 0;
+				}
+			
+				if(statut == null) {
+					statut = "";
+				}
+			
+				if(bibliotheque == null) {
+					bibliotheque = "";
+				}
+				
+				if(niveau_3 == null) {
+					niveau_3 = "";
+				}
+			
+				if(niveau_4 == null) {
+					niveau_4 = "";
+				}
+			
+				if(service == null) {
+					service = "";
+				}
+			
+				if(carte == null) {
+					carte = "";
+				}
+			
+				Personne personne = new Personne(ID, nom, prenom, date, statut, bibliotheque, niveau_3, niveau_4, service, carte);
+				add(personne);
+
 			}
-			
-			if(ID == null) {
-				ID = "";
-			}
-			
-			if(nom == null) {
-				nom = "";
-			}
-			
-			if(prenom == null) {
-				prenom = "";
-			}
-			
-			if(date == 0) {
-				date = 0;
-			}
-			
-			if(statut == null) {
-				statut = "";
-			}
-			
-			if(bibliotheque == null) {
-				bibliotheque = "";
-			}
-			
-			if(niveau_3 == null) {
-				niveau_3 = "";
-			}
-			
-			if(niveau_4 == null) {
-				niveau_4 = "";
-			}
-			
-			if(service == null) {
-				service = "";
-			}
-			
-			if(carte == null) {
-				carte = "";
-			}
-			
-			Personne personne = new Personne(ID, nom, prenom, date, statut, bibliotheque, niveau_3, niveau_4, service, carte);
-			add(personne);
-			//System.out.println(personne);
-			//System.out.println("fin ");
-			
-			
 		}
-		
-	}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		catch(IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	
 	//fonction qui lit un fichier excel donnée et insert les informations voulu dans une ArrayList, elle prend le chemin du fichier en argument
 	public void lecture2(File file) {
 		
+		//initialisation
 		XSSFRow row = null;
 		XSSFCell cell = null;
 		XSSFCell cell1 = null;
@@ -474,47 +453,41 @@ public class POI extends ListPersonne{
 		
 		try {
 		
-		//initialisation
 		FileInputStream inputstream = new FileInputStream(file);
-		//System.out.println(file);
 		
 		XSSFWorkbook workbook = new XSSFWorkbook(inputstream);
 		
 		XSSFSheet sheet = workbook.getSheetAt(0);
 		
 		
+		//on compte le nombre de ligne du fichier
 		for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
 			row = (XSSFRow) rowIt.next();
 			totalLigne++;
-		}
-		//System.out.println(totalLigne);			
+		}		
 			
+		//on recherche la colone des nom et celle des prénom pour facilité la comparaison avec les nom de l'arraylist
 			if(clm_nom == -1) {
 				
 				do {
+					//pour chaque ligne
 					row = sheet.getRow(cmp_row);
+					
+					//pour chaque cellule
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
-						
-						if(cell1.getCellType() == CellType.STRING) {
-							//System.out.println("cell " +cell1.getStringCellValue());
-							//System.out.println("cell next " +cellIt.next().getStringCellValue());
 							
-							if(cell1.getCellType() == CellType.STRING &&  cellIt.hasNext() == true && row.getCell(cell1.getColumnIndex()+1).getCellType() == CellType.STRING ) {
-								for(int i = 1; i < pr.size(); i++) {
+						if(cell1.getCellType() == CellType.STRING &&  cellIt.hasNext() == true && row.getCell(cell1.getColumnIndex()+1).getCellType() == CellType.STRING ) {
 								
-									if(  pr.get(i).getPrenom().equals(cell1.getStringCellValue().toLowerCase()) &&  pr.get(i).getNom().equals(row.getCell(cell1.getColumnIndex()+1).getStringCellValue().toLowerCase())) {	
-										System.out.println("trouver");
-										clm_prenom = cell1.getColumnIndex();
-										clm_nom = cell1.getColumnIndex()+1;
-									}
+							//on compare la cellule courante et la suivante a chaque nom et prénom contenu dans l'arraylist 
+							for(int i = 1; i < pr.size(); i++) {
+								if(  pr.get(i).getPrenom().equals(cell1.getStringCellValue().toLowerCase()) &&  pr.get(i).getNom().equals(row.getCell(cell1.getColumnIndex()+1).getStringCellValue().toLowerCase())) {	
+									clm_prenom = cell1.getColumnIndex();
+									clm_nom = cell1.getColumnIndex()+1;
 								}
 							}
-							/*System.out.println("fin");*/
-							//System.out.println("clm p "+clm_prenom);
-							//System.out.println("clm n " +clm_nom);
 						}
 					}
 					cmp_row++;
@@ -527,21 +500,20 @@ public class POI extends ListPersonne{
 			
 			
 			
-			
+			//on recherche la colone des numéro de carte dans le fichier
 			if(clm_carte == -1) {
 				
 				
 				do {
-					//System.out.println("oui");
+					//pour chaque lignes
 					row = sheet.getRow(cmp_row+1);
+					
+					//pour cghaque cellules
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
 						if(cell1.getCellType() == CellType.STRING) {
-							
-							//System.out.println("taille " +c.tailleS(cell1.getStringCellValue()));
-							//System.out.println("cell " +cell1.getStringCellValue());
 							if( (c.carte(cell1.getStringCellValue()) == true)  && (c.tailleS(cell1.getStringCellValue()) == 14)) {
 								clm_carte = cell1.getColumnIndex();
 							}
@@ -552,7 +524,6 @@ public class POI extends ListPersonne{
 				}while((clm_carte == -1) && (cmp_row < totalLigne-1));
 				
 				cmp_row = 1;
-				//System.out.println("clm c "+clm_carte);
 			}
 			
 			
@@ -560,23 +531,22 @@ public class POI extends ListPersonne{
 			
 			
 		row = null;
+		
+		//on parcour toutes les lignes
 		for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
 			row = (XSSFRow) rowIt.next();
 			
-			
+			//et toutes les cellules
 			for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 				cell = (XSSFCell) cellIt.next();
 				
 						
 				if(cell.getCellType() == CellType.STRING && cell.getStringCellValue() != null && (clm_carte != -1 && clm_nom != -1 && clm_prenom != -1)) {
-					//System.out.println("cell "+ cell.getStringCellValue());
 						for(int j = 0; j < pr.size(); j++) {
 							
 							if( (cell.getColumnIndex() == clm_carte) && (pr.get(j).getPrenom().equals(row.getCell(clm_prenom).getStringCellValue().toLowerCase())) && (pr.get(j).getNom().equals(row.getCell(clm_nom).getStringCellValue().toLowerCase())) ){
-								//System.out.println("cell "+ cell);
 							
 								if (c.tailleS(cell.getStringCellValue()) == 14){
-									//System.out.println("carte" +cell.getStringCellValue());
 									String c = cell.getStringCellValue();
 									String sep;
 									int a = 0;
@@ -591,22 +561,16 @@ public class POI extends ListPersonne{
 										chaine = sep + chaine ;
 									}
 									pr.get(j).setNum_carte(chaine);
-									//System.out.println(pr.get(j));
-									//System.out.println("clm carte "+ clm_carte);
 								}
 								
 								else {
 									pr.get(j).setNum_carte(cell.getStringCellValue());
-									//System.out.println(pr.get(j));
 								}
 							}
-							
 						}
 					}	
 				}
-			
 			}
-		
 		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -650,7 +614,6 @@ public class POI extends ListPersonne{
 			row = (XSSFRow) rowIt.next();
 			totalLigne++;
 		}
-		System.out.println(totalLigne);
 		
 			
 			//on recherche la colone des nom et celle des prénom pour facilité la comparaison avec les nom de l'arraylist
@@ -667,7 +630,7 @@ public class POI extends ListPersonne{
 						
 						if(cell1.getCellType() == CellType.STRING && row.getCell(cell1.getColumnIndex()+1).getCellType() == CellType.STRING ) {
 							
-							//on compare la cellule courante et la suivante a chaque nom et prénom contenu dans l'arraylist 
+							//on compare la cellule courante et la suivante à chaque nom et prénom contenu dans l'arraylist 
 							for(int i = 1; i < pr.size(); i++) {
 								if(  pr.get(i).getNom().equals(cell1.getStringCellValue().toLowerCase()) &&  pr.get(i).getPrenom().equals(row.getCell(cell1.getColumnIndex()+1).getStringCellValue().toLowerCase())) {	
 							
@@ -678,7 +641,6 @@ public class POI extends ListPersonne{
 						}
 					}
 					cmp_row++;
-					System.out.println("clm nom "+clm_nom);
 				}while(clm_nom == -1 && cmp_row < totalLigne-2);
 				cmp_row = 1;
 			}
@@ -730,28 +692,19 @@ public class POI extends ListPersonne{
 						if((cell.getCellType() == CellType.STRING) && (cell.getStringCellValue() != null) && (clm_service != -1 && clm_nom != -1 && clm_prenom != -1) ) {
 						
 							//comparaison avec tout les éléments de l'arraylist
-								for(int j = 0; j < pr.size(); j++) {
-								
-									//si les nom prénom du fichier corresponde au nom prénom de l'élement de l'arraylist
-									if( (cell.getColumnIndex() == clm_service) && (pr.get(j).getPrenom().equals(row.getCell(clm_prenom).getStringCellValue().toLowerCase())) && (pr.get(j).getNom().equals(row.getCell(clm_nom).getStringCellValue().toLowerCase())) ){
-										System.out.println("cell "+ cell);					
-										//System.out.println("clm "+ cell1.getStringCellValue());
-										pr.get(j).setService(cell.getStringCellValue());
-									}
-									
-								}
+							for(int j = 0; j < pr.size(); j++) {
+							
+								//si les nom prénom du fichier corresponde au nom prénom de l'élement de l'arraylist l'élément est ajouté
+								if( (cell.getColumnIndex() == clm_service) && (pr.get(j).getPrenom().equals(row.getCell(clm_prenom).getStringCellValue().toLowerCase())) && (pr.get(j).getNom().equals(row.getCell(clm_nom).getStringCellValue().toLowerCase())) ){
+									pr.get(j).setService(cell.getStringCellValue());
+								}	
+							}
 						}
-						else {
-							System.out.println("pas de correspondente");
-						}
-						
-						
 					}
-			
 				}
+			}
 		}
 		
-		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -760,6 +713,7 @@ public class POI extends ListPersonne{
 		}
 		
 	}
+	
 	
 	//la fonction ecrire ecrit les données stocké dans l'ArrayList dans un nouveau fichier excel 
 	public void ecrire(){
@@ -780,7 +734,6 @@ public class POI extends ListPersonne{
 			
 			//pour chaque élément de l'ArrayList on créé une ligne  
 			XSSFRow row = sheet.createRow(j);
-			
 			
 	    
 			//on remplie ensuite chaque celule avec un switch case
@@ -841,13 +794,13 @@ public class POI extends ListPersonne{
 			}
 		}
 		
-		System.out.println("taille pr "+pr.size());
 		pr.clear();
 
 		
 		FileOutputStream fileout;
 		DateFormat format = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 		Calendar calendar = Calendar.getInstance();
+		System.out.println("fin");
 		
 		
 		try {

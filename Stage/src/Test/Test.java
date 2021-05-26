@@ -11,7 +11,7 @@ public class Test {
 		File file = new File("fichier_entré/Classeur1.xlsx");
 		File file1 = new File("fichier_entré/carte.xlsx");
 		File file2 = new File("fichier_entré/liste_evacuation.xlsx");
-		//System.out.println("file "+file);
+
 		POI poi = new POI();
 		poi.lecture1(file);
 		poi.lecture2(file1);
