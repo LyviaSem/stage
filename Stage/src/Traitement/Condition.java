@@ -143,11 +143,12 @@ public class Condition {
 	//cette fonction vérifie si la cellule courante contien le poste d'une personne
 	public boolean poste(String s) {
 		
-		if(s.length() > 0) {
+		if(s.length() > 14) {
 			char ch = s.charAt(0);
-		
-			//on elimine les chaine de caractère qui contienne une virgule (cellule des nom et prénom) et celle qui contienne des tiret (cellule des bibliothèque)
-			if(((ch == 'D') && (s.charAt(1) == 'i')) || ((ch == 'I') && (s.charAt(1) == 'n')) || ((ch == 'H') && (s.charAt(1) == 'o')) ){
+			
+			if(((ch == 'D') && (s.charAt(1) == 'i')) || ((ch == 'I') && (s.charAt(1) == 'n') && (s.charAt(13) == 'C') && (s.charAt(14) == 'i')) || ((ch == 'P') && (s.charAt(1) == 'ô')) ){
+				System.out.println("ch "+ch);
+				System.out.println("ch1 "+s.charAt(1));
 				return true;
 			}
 		}
@@ -178,7 +179,7 @@ public class Condition {
 	//cette fonction vérifie si la cellule courante contien le service d'une personne
 	public boolean service(String s) {
 		
-		if(s.length() > 0) {
+		if(s.length() > 1) {
 			char ch = s.charAt(0);
 		
 			//si la cellule commence avec l'une de ces combinaison de carrartère alors elle contient bien les services
@@ -198,7 +199,7 @@ public class Condition {
 			char ch = s.charAt(0);
 		
 			
-			if( ((ch == 'N') && (s.charAt(1) == 'U') && (s.charAt(2) == 'L') ) ){
+			if( ((ch == 'N') && (s.charAt(1) == 'U') && (s.charAt(2) == 'L')) || ((ch == 'I') && (s.charAt(1) == 'n'))){
 				return true;
 			}
 		}

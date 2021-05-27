@@ -218,7 +218,7 @@ public class POI extends ListPersonne{
 						if(cell1.getCellType() == CellType.STRING) {
 							
 							
-							if( c.poste(cell1.getStringCellValue()) == true) {
+							if( c.poste(cell1.getStringCellValue()) == true /*&& row.getCell(cell1.getColumnIndex()+1).getCellType() != CellType.NUMERIC*/) {
 								clm_3 = cell1.getColumnIndex();
 					
 							}
@@ -226,7 +226,7 @@ public class POI extends ListPersonne{
 					}
 					cmp_row++;
 				}while(clm_3 == -1 && cmp_row < totalLigne-1);
-				
+				System.out.println("clm 3 "+clm_3);
 				cmp_row = 1;
 				
 			}
@@ -252,7 +252,7 @@ public class POI extends ListPersonne{
 					}
 					cmp_row++;
 				}while(clm_4 == -1 && cmp_row < totalLigne-1);
-				
+				System.out.println("clm 4 "+clm_4);
 				cmp_row = 1;
 				
 			}
