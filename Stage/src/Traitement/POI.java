@@ -226,7 +226,6 @@ public class POI extends ListPersonne{
 					}
 					cmp_row++;
 				}while(clm_3 == -1 && cmp_row < totalLigne-1);
-				System.out.println("clm 3 "+clm_3);
 				cmp_row = 1;
 				
 			}
@@ -252,7 +251,6 @@ public class POI extends ListPersonne{
 					}
 					cmp_row++;
 				}while(clm_4 == -1 && cmp_row < totalLigne-1);
-				System.out.println("clm 4 "+clm_4);
 				cmp_row = 1;
 				
 			}

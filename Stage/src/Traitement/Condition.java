@@ -147,8 +147,6 @@ public class Condition {
 			char ch = s.charAt(0);
 			
 			if(((ch == 'D') && (s.charAt(1) == 'i')) || ((ch == 'I') && (s.charAt(1) == 'n') && (s.charAt(13) == 'C') && (s.charAt(14) == 'i')) || ((ch == 'P') && (s.charAt(1) == 'ô')) ){
-				System.out.println("ch "+ch);
-				System.out.println("ch1 "+s.charAt(1));
 				return true;
 			}
 		}
