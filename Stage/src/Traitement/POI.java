@@ -27,6 +27,7 @@ public class POI extends ListPersonne{
 	
 	//instence de la class Condition
 	Condition c = new Condition();
+	public String file = null;
 
 	//fonction qui lit un fichier excel donnée et insert les informations voulu dans une ArrayList, elle prend le chemin du fichier en argument
 	public void lecture1(File file)  {
@@ -796,12 +797,13 @@ public class POI extends ListPersonne{
 
 		
 		FileOutputStream fileout;
-		DateFormat format = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+		DateFormat format = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
 		Calendar calendar = Calendar.getInstance();
 		System.out.println("fin");
 		
 		
 		try {
+			file = "personne" + format.format(calendar.getTime()) + ".xlsx";
 			fileout = new FileOutputStream("fichier_sortie/personne" + format.format(calendar.getTime()) + ".xlsx");
 			wb.write(fileout);
 			fileout.close();

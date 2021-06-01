@@ -461,7 +461,7 @@ public class wind {
 					lblNewLabel_2.setText("fichier 3 : ");
 						
 					lblNewLabel_6.setForeground(Color.BLUE);
-					lblNewLabel_6.setText("nouveau fichier créé");
+					lblNewLabel_6.setText("fichier : " + poi.file +" a étécréé");
 					frmFichier.repaint();
 				}
 				else {
