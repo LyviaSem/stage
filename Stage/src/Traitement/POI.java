@@ -677,10 +677,8 @@ public class POI extends ListPersonne{
 			if(clm_service == -1) {
 				
 				do {
-					//pour chaque ligne
 					row = sheet.getRow(cmp_row);
 					
-					//pour chaque cellule
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
