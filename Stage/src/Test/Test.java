@@ -13,9 +13,9 @@ public class Test {
 		File file2 = new File("fichier_entré/liste_evacuation.xlsx");
 
 		POI poi = new POI();
-		poi.lecture1(file);
-		poi.lecture2(file1);
-		poi.lecture3(file2);
+		poi.lectureAEOS(file);
+		poi.lectureCarte(file1);
+		poi.lectureService(file2);
 		poi.ecrire();
 	}
 

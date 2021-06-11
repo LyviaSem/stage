@@ -105,15 +105,21 @@ public class wind {
 				//ajout d'un filtre
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel file", "xlsx");                                
 				fc.addChoosableFileFilter(filter);
-					
+				fc.setMultiSelectionEnabled(true);
+				
 				int val = fc.showOpenDialog(null);
 				
 				if(val == JFileChooser.APPROVE_OPTION) {
-					fc.setMultiSelectionEnabled(true);
 					//ajout des fichiers selectionne au tableau 
 					if(fc.getSelectedFile() != null) {
-						file[cmp] = fc.getSelectedFile();
-						cmp += 1;
+						if( cmp < 3) {
+							file[cmp] = fc.getSelectedFile();
+							cmp += 1;
+						}
+						else {
+							lblNewLabel_6.setForeground(Color.RED);
+							lblNewLabel_6.setText("Erreur : vous avez deja sélectionner 3 fchiers");
+						}
 					}
 				}
 					
@@ -418,37 +424,37 @@ public class wind {
 				if((file[0] != null && file[1] != null && file[2] != null) && (buttonGroup.getSelection().getActionCommand() != buttonGroup_1.getSelection().getActionCommand() && buttonGroup.getSelection().getActionCommand() != buttonGroup_2.getSelection().getActionCommand() && buttonGroup_1.getSelection().getActionCommand() != buttonGroup_2.getSelection().getActionCommand())) {
 					switch (buttonGroup.getSelection().getActionCommand()) {
 						case "fichier 1":
-							poi.lecture1(file[0]);
+							poi.lectureAEOS(file[0]);
 							break;
 						case "fichier 2":
-							poi.lecture1(file[1]);
+							poi.lectureAEOS(file[1]);
 							break;
 						case "fichier 3":
-							poi.lecture1(file[2]);
+							poi.lectureAEOS(file[2]);
 							break;
 					}
 						
 					switch (buttonGroup_1.getSelection().getActionCommand()) {
 						case "fichier 1":
-							poi.lecture2(file[0]);
+							poi.lectureCarte(file[0]);
 							break;
 						case "fichier 2":
-							poi.lecture2(file[1]);
+							poi.lectureCarte(file[1]);
 							break;
 						case "fichier 3":
-							poi.lecture2(file[2]);
+							poi.lectureCarte(file[2]);
 							break;
 					}
 						
 					switch (buttonGroup_2.getSelection().getActionCommand()) {
 						case "fichier 1":
-							poi.lecture3(file[0]);
+							poi.lectureService(file[0]);
 							break;
 						case "fichier 2":
-							poi.lecture3(file[1]);
+							poi.lectureService(file[1]);
 							break;
 						case "fichier 3":
-							poi.lecture3(file[2]);
+							poi.lectureService(file[2]);
 							break;
 					}
 					poi.ecrire();
@@ -461,7 +467,7 @@ public class wind {
 					lblNewLabel_2.setText("fichier 3 : ");
 						
 					lblNewLabel_6.setForeground(Color.BLUE);
-					lblNewLabel_6.setText("fichier : " + poi.file +" a étécréé");
+					lblNewLabel_6.setText("fichier : " + poi.file +" a été créé");
 					frmFichier.repaint();
 				}
 				else {

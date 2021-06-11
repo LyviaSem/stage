@@ -29,8 +29,8 @@ public class POI extends ListPersonne{
 	Condition c = new Condition();
 	public String file = null;
 
-	//fonction qui lit un fichier excel donnée et insert les informations voulu dans une ArrayList, elle prend le chemin du fichier en argument
-	public void lecture1(File file)  {
+	//fonction qui lit un fichier excel donné et insert les informations voulu dans une ArrayList, elle prend le chemin du fichier en argument
+	public void lectureAEOS(File file)  {
 		
 		//initialisation 
 		XSSFRow row = null;
@@ -68,12 +68,13 @@ public class POI extends ListPersonne{
 		
 			XSSFSheet sheet = workbook.getSheetAt(0);
 		
-		
+			//compte le nombre de ligne du fichier
 			for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
 				row = (XSSFRow) rowIt.next();
 				totalLigne++;
 			}
 			
+			//recherche de la colonne qui contien les ID
 			if(clm_ID == -1) {
 			
 				do {
@@ -82,6 +83,7 @@ public class POI extends ListPersonne{
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
+						//pour les cellules numerique
 						if(cell1.getCellType() == CellType.NUMERIC) {
 					
 							if(c.tailleN(cell1.getNumericCellValue()) <= 3) {
@@ -90,13 +92,14 @@ public class POI extends ListPersonne{
 						}
 					}
 					cmp_row++;
-						
+					
+				//s'arrete si on a trouver la colonne ou si le fichier ne contien plus de ligne
 				}while(clm_ID == -1 && cmp_row < totalLigne-1);
 				
 				cmp_row = 1;
 			}
 			
-			
+			//recherche de la colonne qui contien les noms
 			if(clm_nom == -1) {
 				
 				do {
@@ -105,14 +108,16 @@ public class POI extends ListPersonne{
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
+						//pour les cellules de chaine de caractere
 						if(cell1.getCellType() == CellType.STRING) {
 							
 							if(c.nomprenom(cell1.getStringCellValue()) == true) {
 								
-								String separateur, fields[];
 								int compteur = 0;
 								for(int j = 0; j < cell1.getStringCellValue().length()-1; j++){
 									char ch = cell1.getStringCellValue().charAt(j);
+									
+									//verifie que les caractere sont des majuscules
 									if((Character.isUpperCase(ch)) && (Character.isUpperCase(cell1.getStringCellValue().charAt(j+1)))){
 										compteur++;
 									}
@@ -125,13 +130,15 @@ public class POI extends ListPersonne{
 						}
 					}
 					cmp_row++;
+					
+				//s'arrete si on a trouver la colonne ou si le fichier ne contien plus de ligne
 				}while(clm_nom == -1 && cmp_row < totalLigne-1);
 				
 				cmp_row = 1;
 			}
 			
 			
-			
+			//recherche de la colonne qui contien les dates 
 			if(clm_date == -1) {
 				
 				do {
@@ -140,22 +147,25 @@ public class POI extends ListPersonne{
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
+						//pour les cellules numerique
 						if(cell1.getCellType() == CellType.NUMERIC) {
 							
 							
-							if( (c.date_fin(cell1.getNumericCellValue()) == true) /*&& (c.caractere(cell1.getNumericCellValue()) == true)*/) {
+							if( (c.date_fin(cell1.getNumericCellValue()) == true) ) {
 								clm_date = cell1.getColumnIndex();
 							}
 						}
 					}
 					cmp_row++;
+				
+				//s'arrete si on a trouver la colonne ou si le fichier ne contien plus de ligne
 				}while(clm_date == -1 && cmp_row < totalLigne-1);
 				
 				cmp_row = 1;
 				
 			}
 			
-			
+			//recherche de la colonne qui contien les statuts
 			if(clm_statut == -1) {
 				
 				do {
@@ -164,6 +174,7 @@ public class POI extends ListPersonne{
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
+						//pour les cellules de chaine de caractere
 						if(cell1.getCellType() == CellType.STRING) {
 							
 					
@@ -175,12 +186,14 @@ public class POI extends ListPersonne{
 						}
 					}
 					cmp_row++;
+					
+				//s'arrete si on a trouver la colonne ou si le fichier ne contien plus de ligne
 				}while(clm_statut == -1 && cmp_row < totalLigne-1);
 				
 				cmp_row = 1;
 			}
 			
-			
+			//recherche de la colonne qui contien les bibliothèques
 			if(clm_bibliotheque == -1) {
 				
 				do {
@@ -190,6 +203,7 @@ public class POI extends ListPersonne{
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
+						//pour les cellules de chaine de caractere
 						if(cell1.getCellType() == CellType.STRING) {
 					
 							if( ( (c.biblio(cell1.getStringCellValue()) == true) && (c.maj(cell1.getStringCellValue()) == true) )  || ( (c.tailleS(cell1.getStringCellValue()) == 3) && (c.maj(cell1.getStringCellValue()) == true) ) ) {
@@ -199,6 +213,8 @@ public class POI extends ListPersonne{
 						}
 					}
 					cmp_row++;
+					
+				//s'arrete si on a trouver la colonne ou si le fichier ne contien plus de ligne
 				}while(clm_bibliotheque == -1 && cmp_row < totalLigne-1);
 				
 				cmp_row = 1;
@@ -206,8 +222,7 @@ public class POI extends ListPersonne{
 			}
 			
 			
-			
-			
+			//recherche de la colonne qui contien les structures de troisieme niveau
 			if(clm_3 == -1) {
 				
 				do {
@@ -216,6 +231,7 @@ public class POI extends ListPersonne{
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
+						//pour les cellules de chaine de caractere
 						if(cell1.getCellType() == CellType.STRING) {
 							
 							
@@ -226,12 +242,15 @@ public class POI extends ListPersonne{
 						}
 					}
 					cmp_row++;
+					
+				//s'arrete si on a trouver la colonne ou si le fichier ne contien plus de ligne
 				}while(clm_3 == -1 && cmp_row < totalLigne-1);
 				cmp_row = 1;
 				
 			}
 			
 			
+			//recherche de la colonne qui contien les structures de quatrième niveau
 			if(clm_4 == -1) {
 				
 				do {
@@ -240,6 +259,7 @@ public class POI extends ListPersonne{
 					
 						cell1 = (XSSFCell) cellIt.next();
 						
+						//pour les cellules de chaine de caractere
 						if(cell1.getCellType() == CellType.STRING) {
 							
 							if( ((c.niv_4(cell1.getStringCellValue()) == true) && (clm_3 == cell1.getColumnIndex()-1))){
@@ -251,6 +271,8 @@ public class POI extends ListPersonne{
 						}
 					}
 					cmp_row++;
+					
+				//s'arrete si on a trouver la colonne ou si le fichier ne contien plus de ligne
 				}while(clm_4 == -1 && cmp_row < totalLigne-1);
 				cmp_row = 1;
 				
@@ -259,6 +281,7 @@ public class POI extends ListPersonne{
 			
 			
 			row = null;
+			
 			for (java.util.Iterator<Row> rowIt = sheet.rowIterator(); rowIt.hasNext();) {
 				row = (XSSFRow) rowIt.next();
 			
@@ -280,8 +303,9 @@ public class POI extends ListPersonne{
 							
 						String separateur, fields[];
 							
-							
 						separateur = ", ";
+						
+						//separe nom et prenom
 						fields = cell.getStringCellValue().toLowerCase().split(separateur);
 							
 						fields[0] = fields[0].replaceAll("é", "e");
@@ -291,11 +315,11 @@ public class POI extends ListPersonne{
 						fields[0] = fields[0].replaceAll("à", "a");
 						nom = fields[0];
 						if(fields.length > 1) {
-							fields[0] = fields[0].replaceAll("é", "e");
-							fields[0] = fields[0].replaceAll("è", "e");
-							fields[0] = fields[0].replaceAll("ê", "e");
-							fields[0] = fields[0].replaceAll("ç", "c");
-							fields[0] = fields[0].replaceAll("à", "a");
+							fields[1] = fields[1].replaceAll("é", "e");
+							fields[1] = fields[1].replaceAll("è", "e");
+							fields[1] = fields[1].replaceAll("ê", "e");
+							fields[1] = fields[1].replaceAll("ç", "c");
+							fields[1] = fields[1].replaceAll("à", "a");
 							fields[1] = fields[1].replaceAll("\\s", "");
 							prenom = fields[1];	
 						}
@@ -320,6 +344,7 @@ public class POI extends ListPersonne{
 						}
 						else {
 							int i = (int) cell.getNumericCellValue();
+							
 							String chaine = String.valueOf(i);
 							if(chaine.length() < 6) {
 								int var = 6 - chaine.length()  ;
@@ -436,7 +461,7 @@ public class POI extends ListPersonne{
 	
 	
 	//fonction qui lit un fichier excel donnée et insert les informations voulu dans une ArrayList, elle prend le chemin du fichier en argument
-	public void lecture2(File file) {
+	public void lectureCarte(File file) {
 		
 		//initialisation
 		XSSFRow row = null;
@@ -465,14 +490,12 @@ public class POI extends ListPersonne{
 			totalLigne++;
 		}		
 			
-		//on recherche la colone des nom et celle des prénom pour facilité la comparaison avec les nom de l'arraylist
+		//recherche de la colonne qui contien les nom et prenom
 			if(clm_nom == -1) {
 				
 				do {
-					//pour chaque ligne
 					row = sheet.getRow(cmp_row);
 					
-					//pour chaque cellule
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
@@ -490,6 +513,8 @@ public class POI extends ListPersonne{
 						}
 					}
 					cmp_row++;
+					
+				//s'arrete si on a trouver la colonne ou si le fichier ne contien plus de ligne
 				}while(clm_nom == -1 && cmp_row < totalLigne-1);
 				
 				cmp_row = 1;
@@ -499,15 +524,14 @@ public class POI extends ListPersonne{
 			
 			
 			
-			//on recherche la colone des numéro de carte dans le fichier
+			//recherche de la colonne qui contien les numéro de carte
 			if(clm_carte == -1) {
 				
 				
 				do {
-					//pour chaque lignes
+					
 					row = sheet.getRow(cmp_row+1);
 					
-					//pour cghaque cellules
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
@@ -520,6 +544,7 @@ public class POI extends ListPersonne{
 					}
 					cmp_row++;
 					
+				//s'arrete si on a trouver la colonne ou si le fichier ne contien plus de ligne
 				}while((clm_carte == -1) && (cmp_row < totalLigne-1));
 				
 				cmp_row = 1;
@@ -543,6 +568,7 @@ public class POI extends ListPersonne{
 				if(cell.getCellType() == CellType.STRING && cell.getStringCellValue() != null && (clm_carte != -1 && clm_nom != -1 && clm_prenom != -1)) {
 						for(int j = 0; j < pr.size(); j++) {
 							
+							//associe le nom et prenom lu au nom prenom present dans l'ArrayList
 							if( (cell.getColumnIndex() == clm_carte) && (pr.get(j).getPrenom().equals(row.getCell(clm_prenom).getStringCellValue().toLowerCase())) && (pr.get(j).getNom().equals(row.getCell(clm_nom).getStringCellValue().toLowerCase())) ){
 							
 								if (c.tailleS(cell.getStringCellValue()) == 14){
@@ -552,6 +578,7 @@ public class POI extends ListPersonne{
 									int b = 2;
 									String chaine = "";
 									
+									//met le numero de carte sous le bon format
 									for(int i = 0; i < c.length(); i += 2) {
 										sep = c.substring(a,b);
 										a += 2;
@@ -559,10 +586,12 @@ public class POI extends ListPersonne{
 								
 										chaine = sep + chaine ;
 									}
+									//ajout dans l'ArrayList
 									pr.get(j).setNum_carte(chaine);
 								}
 								
 								else {
+									//ajout dans l'ArrayList
 									pr.get(j).setNum_carte(cell.getStringCellValue());
 								}
 							}
@@ -582,7 +611,7 @@ public class POI extends ListPersonne{
 	
 	
 	//fonction qui lit un fichier excel donnée et insert les informations voulu dans une ArrayList, elle prend le chemin du fichier en argument
-	public void lecture3(File file) {
+	public void lectureService(File file) {
 		
 		//initailisation 
 		XSSFRow row = null;
@@ -615,14 +644,12 @@ public class POI extends ListPersonne{
 		}
 		
 			
-			//on recherche la colone des nom et celle des prénom pour facilité la comparaison avec les nom de l'arraylist
-			if(clm_nom == -1 && clm_prenom == -1) {
+		//recherche de la colonne qui contien les nom et prenom
+			if(clm_nom == -1) {
 				
 				do {
-					//pour chaque ligne
 					row = sheet.getRow(cmp_row);
 					
-					//pour chaque cellule
 					for (java.util.Iterator<Cell> cellIt = row.cellIterator(); cellIt.hasNext();) {
 					
 						cell1 = (XSSFCell) cellIt.next();
@@ -646,7 +673,7 @@ public class POI extends ListPersonne{
 			
 			
 			
-			//on recherche la colone des service dans le fichier
+			//on recherche la colonne des services
 			if(clm_service == -1) {
 				
 				do {
@@ -799,12 +826,12 @@ public class POI extends ListPersonne{
 		FileOutputStream fileout;
 		DateFormat format = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
 		Calendar calendar = Calendar.getInstance();
-		System.out.println("fin");
+		String nomSession = System.getProperty("user.home");
 		
 		
 		try {
 			file = "personne" + format.format(calendar.getTime()) + ".xlsx";
-			fileout = new FileOutputStream("fichier_sortie/personne" + format.format(calendar.getTime()) + ".xlsx");
+			fileout = new FileOutputStream(nomSession + "Documents\\personne" + format.format(calendar.getTime()) + ".xlsx");
 			wb.write(fileout);
 			fileout.close();
 		}
@@ -814,8 +841,8 @@ public class POI extends ListPersonne{
 		catch(IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("fin");
 	}
-	
 	
 
 }
