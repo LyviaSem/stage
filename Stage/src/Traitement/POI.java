@@ -829,7 +829,7 @@ public class POI extends ListPersonne{
 		
 		try {
 			file = "personne" + format.format(calendar.getTime()) + ".xlsx";
-			fileout = new FileOutputStream(nomSession + "Documents\\personne" + format.format(calendar.getTime()) + ".xlsx");
+			fileout = new FileOutputStream(nomSession + "\\Documents\\personne" + format.format(calendar.getTime()) + ".xlsx");
 			wb.write(fileout);
 			fileout.close();
 		}
